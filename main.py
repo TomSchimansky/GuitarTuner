@@ -20,7 +20,7 @@ from settings import Settings
 
 class App(tkinter.Tk):
     def __init__(self, *args, **kwargs):
-        os.system("defaults write -g NSRequiresAquaSystemAppearance -bool No")  # only for dark-mode testing
+        # os.system("defaults write -g NSRequiresAquaSystemAppearance -bool No")  # only for dark-mode testing
         tkinter.Tk.__init__(self, *args, **kwargs)
 
         self.main_path = os.path.dirname(os.path.abspath(__file__))
@@ -88,7 +88,7 @@ class App(tkinter.Tk):
         self.main_frame.place(relx=0, rely=0, relheight=1, relwidth=1)
 
     def on_closing(self, event=0):
-        os.system("defaults delete -g NSRequiresAquaSystemAppearance")  # only dark-mode for testing
+        # os.system("defaults delete -g NSRequiresAquaSystemAppearance")  # only dark-mode for testing
         self.audio_analyzer.running = False
         self.play_sound_thread.running = False
         self.destroy()
