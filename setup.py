@@ -24,12 +24,14 @@ IMAGE_FILES = ["assets/images/arrowDown_hovered.png",
                "assets/images/mutedBell.png"]
 
 OPTIONS = {'argv_emulation': False,
+           'includes': '',
+           'excludes': '',
            'iconfile': 'assets/images/GuitarTunerDesign.icns',
            'plist': {
                'CFBundleName': Settings.APP_NAME,
                'CFBundleDisplayName': Settings.APP_NAME,
                'CFBundleExecutable': Settings.APP_NAME,
-               'CFBundleGetInfoString': "Tune your guitar the most simplest way.",
+               'CFBundleGetInfoString': "Tune your instrument with {}".format(Settings.APP_NAME),
                'CFBundleIdentifier': Settings.CF_BUNDLE_IDENTIFIER,
                'CFBundleVersion': Settings.VERSION,
                'CFBundleShortVersionString': Settings.VERSION,

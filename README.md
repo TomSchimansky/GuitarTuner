@@ -3,7 +3,7 @@
 This is a simple **guitar tuner** program written in Python with Tkinter, PyAudio and NumPy.
 The played note is automatically recognized through the microphone, and an acoustic signal is
 heard when the tuning is correct. If you want you can also change the reference-tone to another
-frequency. Besides this, the app also supports macOS dark-mode.
+frequency.
 
 ### Functionality
 
