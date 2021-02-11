@@ -3,6 +3,7 @@ import tkinter.messagebox
 import os
 import sys
 import numpy as np
+from distutils.version import StrictVersion as Version
 
 from tuner_audio.audio_analyzer import AudioAnalyzer
 from tuner_audio.threading_helper import ProtectedList
@@ -19,16 +20,12 @@ from tuner_ui_parts.settings_frame import SettingsFrame
 from settings import Settings
 
 
-def version_tuple(version: str):
-    return tuple(map(int, (version.split("."))))
-
-
 class App(tkinter.Tk):
     def __init__(self, *args, **kwargs):
         if sys.platform == "darwin":  # macOS
-            if version_tuple(tkinter.Tcl().call("info", "patchlevel")) >= version_tuple("8.6.9"):  # Tcl/Tk >= 8.6.9
+            if Version(tkinter.Tcl().call("info", "patchlevel")) >= Version("8.6.9"):  # Tcl/Tk >= 8.6.9
                 os.system("defaults write -g NSRequiresAquaSystemAppearance -bool No")  # Only for dark-mode testing!
-                # WARNING: This command applies macOS darkmode on all programs. This can cause bugs on some programs.
+                # WARNING: This command applies macOS dark-mode on all programs. This can cause bugs on some programs.
                 # Currently this works only with anaconda python version with Tcl/Tk >= 8.6.9.
 
         tkinter.Tk.__init__(self, *args, **kwargs)
