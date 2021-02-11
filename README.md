@@ -37,3 +37,5 @@ only the necessary libraries. The macOS dark-mode currently **only** works with 
 If you compile the app with a python.org version, you have to disable the dark-mode by deleting
 the ```'NSRequiresAquaSystemAppearance': False```entry in setup.py, which causes the application window to go
 into dark-mode.
+
+![](documentation/Icon_Banner.png)
