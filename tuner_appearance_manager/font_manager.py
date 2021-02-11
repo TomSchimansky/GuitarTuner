@@ -18,13 +18,13 @@ class FontManager(object):
             self.settings_text_font = ("Avenir", 28)
 
         elif "win" in sys.platform:  # Windows
-            self.button_font = ("Avenir", 14)
-            self.note_display_font = ("Avenir", 65)
-            self.info_text_font = ("Avenir", 12)
-            self.settings_text_font = ("Avenir", 20)
+            self.button_font = ("Century Gothic", 14)
+            self.note_display_font = ("Century Gothic", 65)
+            self.info_text_font = ("Century Gothic", 12)
+            self.settings_text_font = ("Century Gothic", 20)
 
         else:  # Linux or other
-            self.button_font = ("Avenir", 14)
-            self.note_display_font = ("Avenir", 65)
-            self.info_text_font = ("Avenir", 12)
-            self.settings_text_font = ("Avenir", 20)
+            self.button_font = ("Century Gothic", 14)
+            self.note_display_font = ("Century Gothic", 65)
+            self.info_text_font = ("Century Gothic", 12)
+            self.settings_text_font = ("Century Gothic", 20)

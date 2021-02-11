@@ -63,7 +63,7 @@ class App(tkinter.Tk):
 
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
 
-        if sys.platform == "darwin":  # MacOS X and MacOS 11
+        if sys.platform == "darwin":  # macOS
             self.bind("<Command-q>", self.on_closing)
             self.bind("<Command-w>", self.on_closing)
             self.createcommand('tk::mac::Quit', self.on_closing)
@@ -99,7 +99,7 @@ class App(tkinter.Tk):
         if sys.platform == "darwin":  # macOS
             if Version(tkinter.Tcl().call("info", "patchlevel")) >= Version("8.6.9"):  # Tcl/Tk >= 8.6.9
                 os.system("defaults delete -g NSRequiresAquaSystemAppearance")  # Only for dark-mode testing!
-                # This command reverts the darkmode setting for all programs.
+                # This command reverts the dark-mode setting for all programs.
 
         self.audio_analyzer.running = False
         self.play_sound_thread.running = False
