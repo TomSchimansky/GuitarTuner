@@ -10,8 +10,9 @@ class SettingsFrame(tkinter.Frame):
         tkinter.Frame.__init__(self, master, *args, **kwargs)
 
         self.app_pointer = master
-        self.color_manager = master.color_manager
-        self.image_manager = master.image_manager
+        self.color_manager = self.app_pointer.color_manager
+        self.font_manager = self.app_pointer.font_manager
+        self.image_manager = self.app_pointer.image_manager
 
         self.configure(bg=self.color_manager.background_layer_1)
 
@@ -26,7 +27,7 @@ class SettingsFrame(tkinter.Frame):
                                          bg_color=self.color_manager.background_layer_0,
                                          fg_color=self.color_manager.theme_main,
                                          hover_color=self.color_manager.theme_light,
-                                         text_font=("Avenir", 18),
+                                         text_font=self.font_manager.button_font,
                                          text="Back",
                                          text_color=self.color_manager.text_main,
                                          corner_radius=10,
@@ -43,7 +44,7 @@ class SettingsFrame(tkinter.Frame):
         self.label_info_text = tkinter.Label(master=self,
                                              bg=self.color_manager.background_layer_1,
                                              fg=self.color_manager.text_2,
-                                             font=("Avenir", 16),
+                                             font=self.font_manager.info_text_font,
                                              text=Settings.ABOUT_TEXT)
 
         self.label_info_text.place(anchor="center",
@@ -55,7 +56,7 @@ class SettingsFrame(tkinter.Frame):
         self.label_note_text = tkinter.Label(master=self,
                                              bg=self.color_manager.background_layer_1,
                                              fg=self.color_manager.text_2,
-                                             font=("Avenir", 28),
+                                             font=self.font_manager.settings_text_font,
                                              text="A4 =")
 
         self.label_note_text.place(anchor="center",
@@ -68,7 +69,7 @@ class SettingsFrame(tkinter.Frame):
                                              bg_color=self.color_manager.background_layer_1,
                                              fg_color=self.color_manager.theme_main,
                                              hover_color=self.color_manager.theme_main,
-                                             text_font=("Avenir", 28),
+                                             text_font=self.font_manager.settings_text_font,
                                              text="440 Hz",
                                              text_color=self.color_manager.text_main,
                                              corner_radius=10,

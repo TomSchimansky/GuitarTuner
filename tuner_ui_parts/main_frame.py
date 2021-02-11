@@ -11,9 +11,9 @@ class MainFrame(tkinter.Frame):
         tkinter.Frame.__init__(self, master, *args, **kwargs)
 
         self.app_pointer = master
-        self.color_manager = master.color_manager
-        self.image_manager = master.image_manager
-        self.image_manager = master.image_manager
+        self.color_manager = self.app_pointer.color_manager
+        self.font_manager = self.app_pointer.font_manager
+        self.image_manager = self.app_pointer.image_manager
 
         self.configure(bg=self.color_manager.background_layer_1)
 
@@ -83,7 +83,7 @@ class MainFrame(tkinter.Frame):
                                         text="A",
                                         bg=self.color_manager.theme_dark,
                                         fg=self.color_manager.text_2,
-                                        font=("Avenir", 80))
+                                        font=self.font_manager.note_display_font)
 
         self.note_label.place(relx=0.5,
                               rely=0.5,
@@ -93,7 +93,7 @@ class MainFrame(tkinter.Frame):
                                               bg_color=self.color_manager.background_layer_0,
                                               fg_color=self.color_manager.theme_main,
                                               hover_color=self.color_manager.theme_light,
-                                              text_font=("Avenir", 18),
+                                              text_font=self.font_manager.button_font,
                                               text="440 Hz",
                                               text_color=self.color_manager.text_main,
                                               corner_radius=10,
@@ -110,7 +110,7 @@ class MainFrame(tkinter.Frame):
                                          bg_color=self.color_manager.background_layer_0,
                                          fg_color=self.color_manager.theme_main,
                                          hover_color=self.color_manager.theme_light,
-                                         text_font=("Avenir", 18),
+                                         text_font=self.font_manager.button_font,
                                          text="Info",
                                          text_color=self.color_manager.text_main,
                                          corner_radius=10,

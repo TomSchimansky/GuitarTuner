@@ -15,8 +15,6 @@ class ImageManager(object):
         self.bell_image = ImageTk.PhotoImage(
             Image.open(main_path + "/assets/images/bell.png").resize((50, 50), Image.ANTIALIAS))
 
-        print(self.bell_image.width(), self.bell_image.height())
-
         self.bell_hovered_image = ImageTk.PhotoImage(
             Image.open(main_path + "/assets/images/bell_hovered.png").resize((50, 50), Image.ANTIALIAS))
 

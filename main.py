@@ -10,6 +10,7 @@ from tuner_audio.sound_thread import SoundThread
 
 from tuner_appearance_manager.color_manager import ColorManager
 from tuner_appearance_manager.image_manager import ImageManager
+from tuner_appearance_manager.font_manager import FontManager
 from tuner_appearance_manager.timing import Timer
 
 from tuner_ui_parts.main_frame import MainFrame
@@ -18,14 +19,24 @@ from tuner_ui_parts.settings_frame import SettingsFrame
 from settings import Settings
 
 
+def version_tuple(version: str):
+    return tuple(map(int, (version.split("."))))
+
+
 class App(tkinter.Tk):
     def __init__(self, *args, **kwargs):
-        # os.system("defaults write -g NSRequiresAquaSystemAppearance -bool No")  # only for dark-mode testing
+        if sys.platform == "darwin":  # macOS
+            if version_tuple(tkinter.Tcl().call("info", "patchlevel")) >= version_tuple("8.6.9"):  # Tcl/Tk >= 8.6.9
+                os.system("defaults write -g NSRequiresAquaSystemAppearance -bool No")  # Only for dark-mode testing!
+                # WARNING: This command applies macOS darkmode on all programs. This can cause bugs on some programs.
+                # Currently this works only with anaconda python version with Tcl/Tk >= 8.6.9.
+
         tkinter.Tk.__init__(self, *args, **kwargs)
 
         self.main_path = os.path.dirname(os.path.abspath(__file__))
 
         self.color_manager = ColorManager()
+        self.font_manager = FontManager()
         self.image_manager = ImageManager(self.main_path)
         self.frequency_queue = ProtectedList()
 
@@ -88,7 +99,11 @@ class App(tkinter.Tk):
         self.main_frame.place(relx=0, rely=0, relheight=1, relwidth=1)
 
     def on_closing(self, event=0):
-        # os.system("defaults delete -g NSRequiresAquaSystemAppearance")  # only dark-mode for testing
+        if sys.platform == "darwin":  # macOS
+            if version_tuple(tkinter.Tcl().call("info", "patchlevel")) >= version_tuple("8.6.9"):  # Tcl/Tk >= 8.6.9
+                os.system("defaults delete -g NSRequiresAquaSystemAppearance")  # Only for dark-mode testing!
+                # This command reverts the darkmode setting for all programs.
+
         self.audio_analyzer.running = False
         self.play_sound_thread.running = False
         self.destroy()
@@ -149,6 +164,7 @@ class App(tkinter.Tk):
 
             except Exception as err:
                 sys.stderr.write('Error: Line {} {} {}\n'.format(sys.exc_info()[-1].tb_lineno, type(err).__name__, err))
+                self.update()
                 self.timer.wait()
 
 
