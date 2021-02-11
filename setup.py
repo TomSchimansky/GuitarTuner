@@ -1,16 +1,14 @@
-"""
-For Compilation MacOS you can do:
-
-pip3 install -r requirements.txt
-python3 setup.py py2app
-
-"""
+""" this setup.py file is build for compilation on macOS with py2app"""
 
 import os
+import getpass
 from setuptools import setup
 from settings import Settings
 
+REMOVE_OLD_BUILD = True  # delete /build and /dist
+
 APP = ['main.py']
+USER_NAME = getpass.getuser()
 
 SOUND_FILES = ["assets/sounds/drop.wav"]
 
@@ -24,9 +22,13 @@ IMAGE_FILES = ["assets/images/arrowDown_hovered.png",
                "assets/images/mutedBell.png"]
 
 OPTIONS = {'argv_emulation': False,
-           'includes': '',
+           'includes': 'numpy, tkinter, PIL, pyaudio, darkdetect',
            'excludes': '',
-           'iconfile': 'assets/images/GuitarTunerDesign.icns',
+           'frameworks': '/Users/{}/miniconda3/lib/libffi.6.dylib,'.format(USER_NAME) +
+                         '/Users/{}/miniconda3/lib/libtk8.6.dylib,'.format(USER_NAME) +
+                         '/Users/{}/miniconda3/lib/libtcl8.6.dylib'.format(USER_NAME),
+           # For whatever reason, py2app didn't include these 3 frameworks automatically. (path can be different)
+           'iconfile': 'assets/images/GuitarTuner_Icon.icns',
            'plist': {
                'CFBundleName': Settings.APP_NAME,
                'CFBundleDisplayName': Settings.APP_NAME,
@@ -39,7 +41,6 @@ OPTIONS = {'argv_emulation': False,
                'NSHumanReadableCopyright': u"Copyright © {}, {}, All Rights Reserved".format(Settings.YEAR, Settings.AUTHOR)
            }}
 
-REMOVE_OLD_BUILD = True
 
 if REMOVE_OLD_BUILD is True:
     os.system("rm -r build")
