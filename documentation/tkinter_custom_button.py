@@ -103,51 +103,54 @@ class TkinterCustomButton(tkinter.Frame):
         self.canvas.configure(bg=self.bg_color)
 
         # border button parts
+        if self.border_width > 0:
 
-        self.canvas_border_parts.append(self.canvas.create_oval(0,
-                                                                0,
-                                                                self.corner_radius * 2,
-                                                                self.corner_radius * 2))
-        self.canvas_border_parts.append(self.canvas.create_oval(self.width - self.corner_radius * 2,
-                                                                0,
-                                                                self.width,
-                                                                self.corner_radius * 2))
-        self.canvas_border_parts.append(self.canvas.create_oval(0,
-                                                                self.height - self.corner_radius * 2,
-                                                                self.corner_radius * 2,
-                                                                self.height))
-        self.canvas_border_parts.append(self.canvas.create_oval(self.width - self.corner_radius * 2,
-                                                                self.height - self.corner_radius * 2,
-                                                                self.width,
-                                                                self.height))
+            if self.corner_radius > 0:
+                self.canvas_border_parts.append(self.canvas.create_oval(0,
+                                                                        0,
+                                                                        self.corner_radius * 2,
+                                                                        self.corner_radius * 2))
+                self.canvas_border_parts.append(self.canvas.create_oval(self.width - self.corner_radius * 2,
+                                                                        0,
+                                                                        self.width,
+                                                                        self.corner_radius * 2))
+                self.canvas_border_parts.append(self.canvas.create_oval(0,
+                                                                        self.height - self.corner_radius * 2,
+                                                                        self.corner_radius * 2,
+                                                                        self.height))
+                self.canvas_border_parts.append(self.canvas.create_oval(self.width - self.corner_radius * 2,
+                                                                        self.height - self.corner_radius * 2,
+                                                                        self.width,
+                                                                        self.height))
 
-        self.canvas_border_parts.append(self.canvas.create_rectangle(0,
-                                                                     self.corner_radius,
-                                                                     self.width,
-                                                                     self.height - self.corner_radius))
-        self.canvas_border_parts.append(self.canvas.create_rectangle(self.corner_radius,
-                                                                     0,
-                                                                     self.width - self.corner_radius,
-                                                                     self.height))
+            self.canvas_border_parts.append(self.canvas.create_rectangle(0,
+                                                                         self.corner_radius,
+                                                                         self.width,
+                                                                         self.height - self.corner_radius))
+            self.canvas_border_parts.append(self.canvas.create_rectangle(self.corner_radius,
+                                                                         0,
+                                                                         self.width - self.corner_radius,
+                                                                         self.height))
 
         # inner button parts
 
-        self.canvas_fg_parts.append(self.canvas.create_oval(self.border_width,
-                                                            self.border_width,
-                                                            self.border_width + self.inner_corner_radius * 2,
-                                                            self.border_width + self.inner_corner_radius * 2))
-        self.canvas_fg_parts.append(self.canvas.create_oval(self.width - self.border_width - self.inner_corner_radius * 2,
-                                                            self.border_width,
-                                                            self.width - self.border_width,
-                                                            self.border_width + self.inner_corner_radius * 2))
-        self.canvas_fg_parts.append(self.canvas.create_oval(self.border_width,
-                                                            self.height - self.border_width - self.inner_corner_radius * 2,
-                                                            self.border_width + self.inner_corner_radius * 2,
-                                                            self.height-self.border_width))
-        self.canvas_fg_parts.append(self.canvas.create_oval(self.width - self.border_width - self.inner_corner_radius * 2,
-                                                            self.height - self.border_width - self.inner_corner_radius * 2,
-                                                            self.width - self.border_width,
-                                                            self.height - self.border_width))
+        if self.corner_radius > 0:
+            self.canvas_fg_parts.append(self.canvas.create_oval(self.border_width,
+                                                                self.border_width,
+                                                                self.border_width + self.inner_corner_radius * 2,
+                                                                self.border_width + self.inner_corner_radius * 2))
+            self.canvas_fg_parts.append(self.canvas.create_oval(self.width - self.border_width - self.inner_corner_radius * 2,
+                                                                self.border_width,
+                                                                self.width - self.border_width,
+                                                                self.border_width + self.inner_corner_radius * 2))
+            self.canvas_fg_parts.append(self.canvas.create_oval(self.border_width,
+                                                                self.height - self.border_width - self.inner_corner_radius * 2,
+                                                                self.border_width + self.inner_corner_radius * 2,
+                                                                self.height-self.border_width))
+            self.canvas_fg_parts.append(self.canvas.create_oval(self.width - self.border_width - self.inner_corner_radius * 2,
+                                                                self.height - self.border_width - self.inner_corner_radius * 2,
+                                                                self.width - self.border_width,
+                                                                self.height - self.border_width))
 
         self.canvas_fg_parts.append(self.canvas.create_rectangle(self.border_width + self.inner_corner_radius,
                                                                  self.border_width,
