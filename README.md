@@ -1,5 +1,5 @@
 # GuitarTuner App
-![](documentation/Preview_Dark.png)
+![](documentation/readme_images/Preview_Dark.png)
 This is a simple **guitar tuner** program written in Python with Tkinter, PyAudio and NumPy.
 The played note is automatically recognized through the microphone, and an acoustic signal is
 heard when the tuning is correct. If you want you can also change the reference-tone to another
@@ -38,4 +38,4 @@ If you compile the app with a python.org version, you have to disable the dark-m
 the ```'NSRequiresAquaSystemAppearance': False```entry in setup.py, which causes the application window to go
 into dark-mode.
 
-![](documentation/Icon_Banner.png)
+![](documentation/readme_images/Icon_Banner.png)

@@ -3,21 +3,36 @@ import sys
 
 
 class TkinterCustomButton(tkinter.Frame):
-    """ tkinter custom button with border, rounded corners and hover effect """
+    """ tkinter custom button with border, rounded corners and hover effect
+
+        Arguments:  master= where to place button
+                    bg_color= background color, None is standard,
+                    fg_color= foreground color, blue is standard,
+                    hover_color= foreground color, lightblue is standard,
+                    border_color= foreground color, None is standard,
+                    border_width= border thickness, 0 is standard,
+                    command= callback function, None is standard,
+                    width= width of button, 110 is standard,
+                    height= width of button, 35 is standard,
+                    corner_radius= corner radius, 10 is standard,
+                    text_font= (<Name>, <Size>),
+                    text_color= test color, white is tandard,
+                    text= text of button,
+                    hover= hover effect, True is standard """
 
     def __init__(self,
                  bg_color=None,
-                 fg_color=None,
-                 hover_color=None,
+                 fg_color="#2874A6",
+                 hover_color="#5499C7",
                  border_color=None,
                  border_width=0,
                  command=None,
-                 width=50,
-                 height=20,
-                 corner_radius=4,
-                 text_font=("Arial", 10),
+                 width=110,
+                 height=35,
+                 corner_radius=10,
+                 text_font=("Avenir", 12),
                  text_color="white",
-                 text="",
+                 text="CustomButton",
                  hover=True,
                  *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -26,6 +41,7 @@ class TkinterCustomButton(tkinter.Frame):
             self.bg_color = self.master.cget("bg")
         else:
             self.bg_color = bg_color
+
         self.fg_color = fg_color
         self.hover_color = hover_color
         self.border_color = border_color
@@ -34,6 +50,7 @@ class TkinterCustomButton(tkinter.Frame):
         self.height = height
         self.corner_radius = corner_radius
         self.border_width = border_width
+
         if self.corner_radius >= self.border_width:
             self.inner_corner_radius = self.corner_radius - self.border_width
         else:
