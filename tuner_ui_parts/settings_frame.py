@@ -1,7 +1,7 @@
 import tkinter
 
-from tuner_ui_parts.custom_button_image import CustomButton
-from tuner_ui_parts.custom_button_rounded import RoundedButton
+from tuner_ui_parts.tkinter_custom_button_imageset import TkinterCustomButtonImageset
+from tuner_ui_parts.tkinter_custom_button import TkinterCustomButton
 from settings import Settings
 
 
@@ -23,17 +23,17 @@ class SettingsFrame(tkinter.Frame):
                                 relheight=0.2,
                                 relwidth=1)
 
-        self.button_back = RoundedButton(master=self.bottom_frame,
-                                         bg_color=self.color_manager.background_layer_0,
-                                         fg_color=self.color_manager.theme_main,
-                                         hover_color=self.color_manager.theme_light,
-                                         text_font=self.font_manager.button_font,
-                                         text="Back",
-                                         text_color=self.color_manager.text_main,
-                                         corner_radius=10,
-                                         width=120,
-                                         height=45,
-                                         function=self.master.draw_main_frame)
+        self.button_back = TkinterCustomButton(master=self.bottom_frame,
+                                               bg_color=self.color_manager.background_layer_0,
+                                               fg_color=self.color_manager.theme_main,
+                                               hover_color=self.color_manager.theme_light,
+                                               text_font=self.font_manager.button_font,
+                                               text="Back",
+                                               text_color=self.color_manager.text_main,
+                                               corner_radius=10,
+                                               width=120,
+                                               height=45,
+                                               command=self.master.draw_main_frame)
 
         self.button_back.place(anchor="se",
                                relx=0.95,
@@ -65,29 +65,29 @@ class SettingsFrame(tkinter.Frame):
                                    relheight=0.1,
                                    relwidth=0.2)
 
-        self.label_frequency = RoundedButton(master=self,
-                                             bg_color=self.color_manager.background_layer_1,
-                                             fg_color=self.color_manager.theme_main,
-                                             hover_color=self.color_manager.theme_main,
-                                             text_font=self.font_manager.settings_text_font,
-                                             text="440 Hz",
-                                             text_color=self.color_manager.text_main,
-                                             corner_radius=10,
-                                             width=170,
-                                             height=65,
-                                             hover=False)
+        self.label_frequency = TkinterCustomButton(master=self,
+                                                   bg_color=self.color_manager.background_layer_1,
+                                                   fg_color=self.color_manager.theme_main,
+                                                   hover_color=self.color_manager.theme_main,
+                                                   text_font=self.font_manager.settings_text_font,
+                                                   text="440 Hz",
+                                                   text_color=self.color_manager.text_main,
+                                                   corner_radius=10,
+                                                   width=170,
+                                                   height=65,
+                                                   hover=False)
 
         self.label_frequency.place(anchor="center",
                                    relx=0.5,
                                    rely=0.45)
 
-        self.button_frequency_up = CustomButton(master=self,
-                                                bg_color=self.color_manager.background_layer_1,
-                                                image_dict={"standard": self.image_manager.arrowUp_image,
+        self.button_frequency_up = TkinterCustomButtonImageset(master=self,
+                                                               bg_color=self.color_manager.background_layer_1,
+                                                               image_dict={"standard": self.image_manager.arrowUp_image,
                                                      "clicked": self.image_manager.arrowUp_image,
                                                      "standard_hover": self.image_manager.arrowUp_image_hovered,
                                                      "clicked_hover": self.image_manager.arrowUp_image_hovered},
-                                                function=self.frequency_button_up)
+                                                               command=self.frequency_button_up)
 
         self.button_frequency_up.place(anchor="center",
                                        relx=0.5,
@@ -95,13 +95,13 @@ class SettingsFrame(tkinter.Frame):
                                        height=50,
                                        width=150)
 
-        self.button_frequency_down = CustomButton(master=self,
-                                                  bg_color=self.color_manager.background_layer_1,
-                                                  image_dict={"standard": self.image_manager.arrowDown_image,
+        self.button_frequency_down = TkinterCustomButtonImageset(master=self,
+                                                                 bg_color=self.color_manager.background_layer_1,
+                                                                 image_dict={"standard": self.image_manager.arrowDown_image,
                                                        "clicked": self.image_manager.arrowDown_image,
                                                        "standard_hover": self.image_manager.arrowDown_image_hovered,
                                                        "clicked_hover": self.image_manager.arrowDown_image_hovered},
-                                                  function=self.frequency_button_down)
+                                                                 command=self.frequency_button_down)
 
         self.button_frequency_down.place(anchor="center",
                                          relx=0.5,

@@ -1,8 +1,8 @@
 import tkinter
 from math import sin, radians
 
-from tuner_ui_parts.custom_button_image import CustomButton
-from tuner_ui_parts.custom_button_rounded import RoundedButton
+from tuner_ui_parts.tkinter_custom_button_imageset import TkinterCustomButtonImageset
+from tuner_ui_parts.tkinter_custom_button import TkinterCustomButton
 from settings import Settings
 
 
@@ -89,42 +89,42 @@ class MainFrame(tkinter.Frame):
                               rely=0.5,
                               anchor="center")
 
-        self.button_frequency = RoundedButton(master=self.botton_frame,
-                                              bg_color=self.color_manager.background_layer_0,
-                                              fg_color=self.color_manager.theme_main,
-                                              hover_color=self.color_manager.theme_light,
-                                              text_font=self.font_manager.button_font,
-                                              text="440 Hz",
-                                              text_color=self.color_manager.text_main,
-                                              corner_radius=10,
-                                              width=120,
-                                              height=45,
-                                              hover=False,
-                                              function=None)
+        self.button_frequency = TkinterCustomButton(master=self.botton_frame,
+                                                    bg_color=self.color_manager.background_layer_0,
+                                                    fg_color=self.color_manager.theme_main,
+                                                    hover_color=self.color_manager.theme_light,
+                                                    text_font=self.font_manager.button_font,
+                                                    text="440 Hz",
+                                                    text_color=self.color_manager.text_main,
+                                                    corner_radius=10,
+                                                    width=120,
+                                                    height=45,
+                                                    hover=False,
+                                                    command=None)
 
         self.button_frequency.place(anchor="sw",
                                     relx=0.05,
                                     rely=0.9)
 
-        self.button_info = RoundedButton(master=self.botton_frame,
-                                         bg_color=self.color_manager.background_layer_0,
-                                         fg_color=self.color_manager.theme_main,
-                                         hover_color=self.color_manager.theme_light,
-                                         text_font=self.font_manager.button_font,
-                                         text="Info",
-                                         text_color=self.color_manager.text_main,
-                                         corner_radius=10,
-                                         width=120,
-                                         height=45,
-                                         function=self.master.draw_settings_frame)
+        self.button_info = TkinterCustomButton(master=self.botton_frame,
+                                               bg_color=self.color_manager.background_layer_0,
+                                               fg_color=self.color_manager.theme_main,
+                                               hover_color=self.color_manager.theme_light,
+                                               text_font=self.font_manager.button_font,
+                                               text="Info",
+                                               text_color=self.color_manager.text_main,
+                                               corner_radius=10,
+                                               width=120,
+                                               height=45,
+                                               command=self.master.draw_settings_frame)
 
         self.button_info.place(anchor="se",
                                relx=0.95,
                                rely=0.9)
 
-        self.button_mute = CustomButton(master=self,
-                                        bg_color=self.color_manager.background_layer_1,
-                                        image_dict={"standard": self.image_manager.bell_image,
+        self.button_mute = TkinterCustomButtonImageset(master=self,
+                                                       bg_color=self.color_manager.background_layer_1,
+                                                       image_dict={"standard": self.image_manager.bell_image,
                                                     "clicked": self.image_manager.bell_muted_image,
                                                     "standard_hover": self.image_manager.bell_hovered_image,
                                                     "clicked_hover": self.image_manager.bell_muted_hovered_image})

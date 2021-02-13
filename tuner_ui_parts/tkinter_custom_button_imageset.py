@@ -2,7 +2,7 @@ import tkinter
 import sys
 
 
-class CustomButton(tkinter.Frame):
+class TkinterCustomButtonImageset(tkinter.Frame):
     """ tkinter custom button with image, takes a
         image_dict with images like the following:
 
@@ -11,13 +11,13 @@ class CustomButton(tkinter.Frame):
                       "standard_hover": ImageTk.PhotoImage,
                       "clicked_hover": ImageTk.PhotoImage} """
 
-    def __init__(self, image_dict=None, hover=True, bg_color="black", function=None, *args, **kwargs):
+    def __init__(self, image_dict=None, hover=True, bg_color="black", command=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.image_dict = image_dict
         self.pressed = False
         self.bg_color = bg_color
-        self.function = function
+        self.function = command
 
         self.configure(bg=self.bg_color)
 

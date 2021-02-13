@@ -42,7 +42,7 @@ class AudioAnalyzer(Thread):
         return Settings.NOTE_NAMES[int(round(n) % 12)]
 
     def run(self):
-        """Main function where the microphone buffer gets read and
+        """Main command where the microphone buffer gets read and
            the fourier transformation gets applied"""
 
         self.running = True
