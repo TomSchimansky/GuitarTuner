@@ -27,10 +27,10 @@ class TkinterCustomButton(tkinter.Frame):
                  border_color=None,
                  border_width=0,
                  command=None,
-                 width=110,
-                 height=35,
+                 width=120,
+                 height=40,
                  corner_radius=10,
-                 text_font=("Avenir", 12),
+                 text_font=None,
                  text_color="white",
                  text="CustomButton",
                  hover=True,
@@ -57,8 +57,16 @@ class TkinterCustomButton(tkinter.Frame):
             self.inner_corner_radius = 0
 
         self.text = text
-        self.text_font = text_font
         self.text_color = text_color
+        if text_font is None:
+            if sys.platform == "darwin":  # macOS
+                self.text_font = ("Avenir", 13)
+            elif "win" in sys.platform:  # Windows
+                self.text_font = ("Century Gothic", 11)
+            else:
+                self.text_font = ("TkDefaultFont")
+        else:
+            self.text_font = text_font
 
         self.function = command
         self.hover = hover
@@ -167,6 +175,8 @@ class TkinterCustomButton(tkinter.Frame):
     def configure_color(self, bg_color=None, fg_color=None, hover_color=None, text_color=None):
         if bg_color is not None:
             self.bg_color = bg_color
+        else:
+            self.bg_color = self.master.cget("bg")
 
         if fg_color is not None:
             self.fg_color = fg_color

@@ -26,7 +26,7 @@ class App(tkinter.Tk):
             if Version(tkinter.Tcl().call("info", "patchlevel")) >= Version("8.6.9"):  # Tcl/Tk >= 8.6.9
                 os.system("defaults write -g NSRequiresAquaSystemAppearance -bool No")  # Only for dark-mode testing!
                 # WARNING: This command applies macOS dark-mode on all programs. This can cause bugs on some programs.
-                # Currently this works only with anaconda python version with Tcl/Tk >= 8.6.9.
+                # Currently this works only with anaconda python version (python.org Tcl/Tk version is only 8.6.8).
 
         tkinter.Tk.__init__(self, *args, **kwargs)
 
