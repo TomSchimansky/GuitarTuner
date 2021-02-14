@@ -48,7 +48,14 @@ class TkinterCustomButton(tkinter.Frame):
 
         self.width = width
         self.height = height
-        self.corner_radius = corner_radius
+
+        if corner_radius*2 > self.height:
+            self.corner_radius = self.height/2
+        elif corner_radius*2 > self.width:
+            self.corner_radius = self.width/2
+        else:
+            self.corner_radius = corner_radius
+
         self.border_width = border_width
 
         if self.corner_radius >= self.border_width:
