@@ -145,18 +145,20 @@ class App(tkinter.Tk):
 
         # ========== other shapes =============
 
+        from PIL import Image, ImageTk
+
+        play_image = ImageTk.PhotoImage(Image.open("play_button_image.png").resize((30, 30)))
+
         self.button_7 = TkinterCustomButton(master=self,
                                             bg_color=None,
                                             fg_color="#58636F",
                                             border_color=None,
                                             hover_color="#808B96",
-                                            text_font=None,
-                                            text="B 7",
-                                            text_color="white",
+                                            image=play_image,  # <- add image (class PhotoImage)
                                             corner_radius=10,
                                             border_width=0,
-                                            width=45,
-                                            height=45,
+                                            width=50,
+                                            height=50,
                                             hover=True,
                                             command=self.test_function)
         self.button_7.place(relx=0.33, rely=0.8, anchor=tkinter.CENTER)

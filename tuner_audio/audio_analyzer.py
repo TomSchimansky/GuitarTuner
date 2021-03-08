@@ -2,6 +2,7 @@ from pyaudio import PyAudio, paInt16
 from threading import Thread
 import numpy as np
 import sys
+import matplotlib.pyplot as plt
 
 from settings import Settings
 
@@ -41,6 +42,7 @@ class AudioAnalyzer(Thread):
     def note_name(n):
         return Settings.NOTE_NAMES[int(round(n) % 12)]
 
+
     def run(self):
         """Main command where the microphone buffer gets read and
            the fourier transformation gets applied"""
@@ -59,6 +61,7 @@ class AudioAnalyzer(Thread):
                 numpydata = numpydata[:int(len(numpydata) / 2)]
 
                 frequencies = np.fft.fftfreq(len(numpydata), 1. / Settings.SAMPLING_RATE)
+                print(len(frequencies), len(numpydata), frequencies[20000], numpydata[20000])
 
                 self.queue.put(round(frequencies[np.argmax(numpydata)], 2))
 
