@@ -18,7 +18,8 @@ class TkinterCustomButton(tkinter.Frame):
                     text_font= (<Name>, <Size>),
                     text_color= text color, white is standard,
                     text= text of button,
-                    hover= hover effect, True is standard """
+                    hover= hover effect, True is standard,
+                    image= PIL.PhotoImage, standard is None"""
 
     def __init__(self,
                  bg_color=None,
@@ -190,6 +191,7 @@ class TkinterCustomButton(tkinter.Frame):
 
         # use the given image
         else:
+            # create tkinter.Label with image on it
             self.image_label = tkinter.Label(master=self,
                                              image=self.image,
                                              bg=self.fg_color)
@@ -198,7 +200,7 @@ class TkinterCustomButton(tkinter.Frame):
                                    rely=0.5,
                                    anchor=tkinter.CENTER)
 
-            # bind events to the btton image label
+            # bind events the the button click and hover events also to the image_label
             if self.hover is True:
                 self.image_label.bind("<Enter>", self.on_enter)
                 self.image_label.bind("<Leave>", self.on_leave)
@@ -215,6 +217,7 @@ class TkinterCustomButton(tkinter.Frame):
         if fg_color is not None:
             self.fg_color = fg_color
 
+            # change background color of image_label
             if self.image is not None:
                 self.image_label.configure(bg=self.fg_color)
 
@@ -235,13 +238,17 @@ class TkinterCustomButton(tkinter.Frame):
     def on_enter(self, event=0):
         for part in self.canvas_fg_parts:
             self.canvas.itemconfig(part, fill=self.hover_color, width=0)
+
         if self.image is not None:
+            # change background color of image_label
             self.image_label.configure(bg=self.hover_color)
 
     def on_leave(self, event=0):
         for part in self.canvas_fg_parts:
             self.canvas.itemconfig(part, fill=self.fg_color, width=0)
+
         if self.image is not None:
+            # change background color of image_label
             self.image_label.configure(bg=self.fg_color)
 
     def clicked(self, event=0):
