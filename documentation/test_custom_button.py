@@ -147,7 +147,7 @@ class App(tkinter.Tk):
 
         from PIL import Image, ImageTk
 
-        play_image = ImageTk.PhotoImage(Image.open("play_button_image.png").resize((30, 30)))
+        play_image = ImageTk.PhotoImage(Image.open("button_test_images/play_button_image.png").resize((30, 30)))
 
         self.button_7 = TkinterCustomButton(master=self,
                                             bg_color=None,
