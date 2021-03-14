@@ -139,12 +139,14 @@ class App(tkinter.Tk):
                     # calculate frequency difference from freq to nearest note
                     freq_difference = nearest_note_freq - freq
 
-                    # calculate the frequency difference from the nearest note to nearest note +1
-                    difference_next_note = nearest_note_freq - self.audio_analyzer.number_to_frequency(round(number - 1), self.a4_frequency)
+                    # calculate the frequency difference to the next note (-1)
+                    difference_next_note = nearest_note_freq - self.audio_analyzer.number_to_frequency(round(number-1),
+                                                                                                       self.a4_frequency)
 
                     # calculate the angle of the display needle
                     needle_angle = -90 * ((freq_difference / difference_next_note) * 2)
 
+                    # if needle in range +-5 degrees then make it green, otherwise red
                     if abs(needle_angle) < 5:
                         self.main_frame.set_needle_color("green")
                         self.tone_hit_counter += 1
