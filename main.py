@@ -153,8 +153,8 @@ class App(tkinter.Tk):
 
                     # update ui elements
                     self.main_frame.set_needle_angle(np.average(self.needle_buffer_array))
-                    self.main_frame.note_label.configure(text=note)
-                    self.main_frame.button_frequency.set_text(str(round(-difference, 1)) + " Hz")
+                    self.main_frame.set_note_name(note_name=note)
+                    self.main_frame.set_frequency(str(round(-difference, 1)) + " Hz")
 
                 self.update()
                 self.timer.wait()

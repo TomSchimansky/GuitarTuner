@@ -176,3 +176,9 @@ class MainFrame(tkinter.Frame):
                                  Settings.CANVAS_SIZE * 0.5 + (Settings.CANVAS_SIZE * 0.45 * x),
                                  Settings.CANVAS_SIZE * 0.5 + (Settings.CANVAS_SIZE * 0.45 * y))
         return x, y
+
+    def set_note_name(self, note_name):
+        self.note_label.configure(text=note_name, width=len(note_name)+1)  # dont question the +1, just works better
+
+    def set_frequency(self, frequency):
+        self.button_frequency.set_text(str(frequency))

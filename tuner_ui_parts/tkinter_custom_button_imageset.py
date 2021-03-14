@@ -23,6 +23,7 @@ class TkinterCustomButtonImageset(tkinter.Frame):
         self.pressed = False
         self.bg_color = bg_color
         self.function = command
+        self.hover = hover
 
         self.configure(bg=self.bg_color)
 
@@ -34,10 +35,10 @@ class TkinterCustomButtonImageset(tkinter.Frame):
                          rely=0.5,
                          anchor=tkinter.CENTER)
 
-        if sys.platform == "darwin" and self.function is not None:
+        if sys.platform == "darwin" and self.hover is True:
             self.configure(cursor="pointinghand")
 
-        if hover is True:
+        if self.hover is True:
             self.bind("<Enter>", self.on_enter)
             self.bind("<Leave>", self.on_leave)
 
