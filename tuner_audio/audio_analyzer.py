@@ -22,7 +22,7 @@ class AudioAnalyzer(Thread):
     def __init__(self, queue, *args, **kwargs):
         Thread.__init__(self, *args, **kwargs)
 
-        self.queue = queue  # queue is must be instance of ProtectedList (threading_helper.ProtectedList)
+        self.queue = queue  # queue is should be instance of ProtectedList (threading_helper.ProtectedList)
         self.buffer = np.zeros(Settings.CHUNK_SIZE * Settings.BUFFER_TIMES)
         self.running = False
 
@@ -53,10 +53,18 @@ class AudioAnalyzer(Thread):
         return a4_freq * 2.0**((number - 69) / 12.0)
 
     @staticmethod
-    def note_name_from_number(number):
+    def number_to_note_name(number):
         """ converts a note number to a note name (for example: 69 returns 'A', 70 returns 'A#', ... ) """
 
         return Settings.NOTE_NAMES[int(round(number) % 12)]
+
+    @staticmethod
+    def frequency_to_note_name(frequency, a4_freq):
+        """ converts frequency to note name (for example: 440 returns 'A') """
+
+        number = AudioAnalyzer.frequency_to_number(frequency, a4_freq)
+        note_name = AudioAnalyzer.number_to_note_name(number)
+        return note_name
 
     def run(self):
         """ Main command where the microphone buffer gets read and
