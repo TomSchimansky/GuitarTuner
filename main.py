@@ -126,11 +126,11 @@ class App(tkinter.Tk):
                 freq = self.frequency_queue.get()
                 if freq is not None:
 
-                    number = self.audio_analyzer.freq_to_number(freq, self.a4_frequency)
-                    note = self.audio_analyzer.note_name(number)
-                    difference = self.audio_analyzer.number_to_freq(round(number), self.a4_frequency) - freq
-                    difference_next_note = self.audio_analyzer.number_to_freq(round(number), self.a4_frequency) -\
-                                           self.audio_analyzer.number_to_freq(round(number - 1), self.a4_frequency)
+                    number = self.audio_analyzer.frequency_to_number(freq, self.a4_frequency)
+                    note = self.audio_analyzer.note_name_from_number(number)
+                    difference = self.audio_analyzer.number_to_frequency(round(number), self.a4_frequency) - freq
+                    difference_next_note = self.audio_analyzer.number_to_frequency(round(number), self.a4_frequency) - \
+                                           self.audio_analyzer.number_to_frequency(round(number - 1), self.a4_frequency)
 
                     needle_angle = -90 * ((difference / difference_next_note) * 2)
 
@@ -147,13 +147,13 @@ class App(tkinter.Tk):
                         if self.main_frame.button_mute.pressed is not True:
                             self.play_sound_thread.play_sound()
 
+                    # update needle buffer array
                     self.needle_buffer_array[:-1] = self.needle_buffer_array[1:]
                     self.needle_buffer_array[-1:] = needle_angle
 
+                    # update ui elements
                     self.main_frame.set_needle_angle(np.average(self.needle_buffer_array))
-
                     self.main_frame.note_label.configure(text=note)
-
                     self.main_frame.button_frequency.set_text(str(round(-difference, 1)) + " Hz")
 
                 self.update()
