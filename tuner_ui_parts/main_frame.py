@@ -21,7 +21,7 @@ class MainFrame(tkinter.Frame):
                                            bg=self.color_manager.background_layer_1,
                                            highlightthickness=0)
 
-        self.under_canvas.place(anchor="center",
+        self.under_canvas.place(anchor=tkinter.CENTER,
                                 relx=0.5,
                                 rely=0.5,
                                 height=Settings.CANVAS_SIZE,
@@ -66,7 +66,7 @@ class MainFrame(tkinter.Frame):
         self.upper_canvas = tkinter.Canvas(master=self.botton_frame,
                                            bg=self.color_manager.background_layer_0,
                                            highlightthickness=0)
-        self.upper_canvas.place(anchor="n",
+        self.upper_canvas.place(anchor=tkinter.N,
                                 relx=0.5,
                                 rely=0,
                                 height=Settings.CANVAS_SIZE / 2,
@@ -87,7 +87,7 @@ class MainFrame(tkinter.Frame):
 
         self.note_label.place(relx=0.5,
                               rely=0.5,
-                              anchor="center")
+                              anchor=tkinter.CENTER)
 
         self.button_frequency = TkinterCustomButton(master=self.botton_frame,
                                                     bg_color=self.color_manager.background_layer_0,
@@ -102,7 +102,7 @@ class MainFrame(tkinter.Frame):
                                                     hover=False,
                                                     command=None)
 
-        self.button_frequency.place(anchor="sw",
+        self.button_frequency.place(anchor=tkinter.SW,
                                     relx=0.05,
                                     rely=0.9)
 
@@ -118,17 +118,17 @@ class MainFrame(tkinter.Frame):
                                                height=45,
                                                command=self.master.draw_settings_frame)
 
-        self.button_info.place(anchor="se",
+        self.button_info.place(anchor=tkinter.SE,
                                relx=0.95,
                                rely=0.9)
 
         self.button_mute = TkinterCustomButtonImageset(master=self,
                                                        bg_color=self.color_manager.background_layer_1,
                                                        image_dict={"standard": self.image_manager.bell_image,
-                                                    "clicked": self.image_manager.bell_muted_image,
-                                                    "standard_hover": self.image_manager.bell_hovered_image,
-                                                    "clicked_hover": self.image_manager.bell_muted_hovered_image})
-        self.button_mute.place(anchor="ne",
+                                                                   "clicked": self.image_manager.bell_muted_image,
+                                                                   "standard_hover": self.image_manager.bell_hovered_image,
+                                                                   "clicked_hover": self.image_manager.bell_muted_hovered_image})
+        self.button_mute.place(anchor=tkinter.NE,
                                relx=0.95,
                                rely=0.05,
                                height=self.image_manager.bell_image.height(),

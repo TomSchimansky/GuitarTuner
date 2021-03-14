@@ -35,7 +35,7 @@ class SettingsFrame(tkinter.Frame):
                                                height=45,
                                                command=self.master.draw_main_frame)
 
-        self.button_back.place(anchor="se",
+        self.button_back.place(anchor=tkinter.SE,
                                relx=0.95,
                                rely=0.75,
                                height=45,
@@ -47,7 +47,7 @@ class SettingsFrame(tkinter.Frame):
                                              font=self.font_manager.info_text_font,
                                              text=Settings.ABOUT_TEXT)
 
-        self.label_info_text.place(anchor="center",
+        self.label_info_text.place(anchor=tkinter.CENTER,
                                    relx=0.5,
                                    rely=0.12,
                                    relheight=0.2,
@@ -59,11 +59,11 @@ class SettingsFrame(tkinter.Frame):
                                              font=self.font_manager.settings_text_font,
                                              text="A4 =")
 
-        self.label_note_text.place(anchor="center",
-                                   relx=0.2,
+        self.label_note_text.place(relx=0.2,
                                    rely=0.45,
                                    relheight=0.1,
-                                   relwidth=0.2)
+                                   relwidth=0.2,
+                                   anchor=tkinter.CENTER)
 
         self.label_frequency = TkinterCustomButton(master=self,
                                                    bg_color=self.color_manager.background_layer_1,
@@ -77,19 +77,19 @@ class SettingsFrame(tkinter.Frame):
                                                    height=65,
                                                    hover=False)
 
-        self.label_frequency.place(anchor="center",
+        self.label_frequency.place(anchor=tkinter.CENTER,
                                    relx=0.5,
                                    rely=0.45)
 
         self.button_frequency_up = TkinterCustomButtonImageset(master=self,
                                                                bg_color=self.color_manager.background_layer_1,
                                                                image_dict={"standard": self.image_manager.arrowUp_image,
-                                                     "clicked": self.image_manager.arrowUp_image,
-                                                     "standard_hover": self.image_manager.arrowUp_image_hovered,
-                                                     "clicked_hover": self.image_manager.arrowUp_image_hovered},
+                                                                           "clicked": self.image_manager.arrowUp_image,
+                                                                           "standard_hover": self.image_manager.arrowUp_image_hovered,
+                                                                           "clicked_hover": self.image_manager.arrowUp_image_hovered},
                                                                command=self.frequency_button_up)
 
-        self.button_frequency_up.place(anchor="center",
+        self.button_frequency_up.place(anchor=tkinter.CENTER,
                                        relx=0.5,
                                        rely=0.3,
                                        height=50,
@@ -98,12 +98,12 @@ class SettingsFrame(tkinter.Frame):
         self.button_frequency_down = TkinterCustomButtonImageset(master=self,
                                                                  bg_color=self.color_manager.background_layer_1,
                                                                  image_dict={"standard": self.image_manager.arrowDown_image,
-                                                       "clicked": self.image_manager.arrowDown_image,
-                                                       "standard_hover": self.image_manager.arrowDown_image_hovered,
-                                                       "clicked_hover": self.image_manager.arrowDown_image_hovered},
+                                                                             "clicked": self.image_manager.arrowDown_image,
+                                                                             "standard_hover": self.image_manager.arrowDown_image_hovered,
+                                                                             "clicked_hover": self.image_manager.arrowDown_image_hovered},
                                                                  command=self.frequency_button_down)
 
-        self.button_frequency_down.place(anchor="center",
+        self.button_frequency_down.place(anchor=tkinter.CENTER,
                                          relx=0.5,
                                          rely=0.6,
                                          height=50,

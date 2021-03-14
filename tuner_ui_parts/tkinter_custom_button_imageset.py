@@ -11,7 +11,12 @@ class TkinterCustomButtonImageset(tkinter.Frame):
                       "standard_hover": ImageTk.PhotoImage,
                       "clicked_hover": ImageTk.PhotoImage} """
 
-    def __init__(self, image_dict=None, hover=True, bg_color="black", command=None, *args, **kwargs):
+    def __init__(self,
+                 image_dict=None,
+                 hover=True,
+                 bg_color="black",
+                 command=None,
+                 *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.image_dict = image_dict
