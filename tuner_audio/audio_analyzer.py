@@ -7,6 +7,18 @@ from settings import Settings
 
 
 class AudioAnalyzer(Thread):
+    """ This AudioAnalyzer reads the microphone and finds the frequency of the loudest tone.
+        To use it, you also need the ProtectedList class from the file threading_helper.py.
+        You need to created an instance of the ProtectedList, which acts as a queue, and you
+        have to pass this queue to the AudioAnalyzer. Then you can read the values from the queue.
+
+        queue = ProtectedList()
+        analyzer = AudioAnalyzer(queue)
+
+        while True:
+            print("Loudest Frequency:", queue.get())
+
+        """
     def __init__(self, queue, *args, **kwargs):
         Thread.__init__(self, *args, **kwargs)
 
@@ -27,24 +39,24 @@ class AudioAnalyzer(Thread):
             return
 
     @staticmethod
-    def frequency_to_number(f, a4_freq):
+    def frequency_to_number(freq, a4_freq):
         """ converts a frequency to a note number (for example: A4 is 69)"""
 
-        if f == 0:
+        if freq == 0:
             sys.stderr.write("Error: No frequency data. Program has potentially no access to microphone\n")
             return 0
-        return 12 * np.log2(f / a4_freq) + 69
+        return 12 * np.log2(freq / a4_freq) + 69
 
     @staticmethod
-    def number_to_frequency(n, a4_freq):
+    def number_to_frequency(number, a4_freq):
         """ converts a note number (A4 is 69) back to a frequency """
-        return a4_freq * 2.0**((n - 69) / 12.0)
+        return a4_freq * 2.0**((number - 69) / 12.0)
 
     @staticmethod
-    def note_name_from_number(n):
+    def note_name_from_number(number):
         """ converts a note number to a note name (for example: 69 returns 'A', 70 returns 'A#', ... ) """
 
-        return Settings.NOTE_NAMES[int(round(n) % 12)]
+        return Settings.NOTE_NAMES[int(round(number) % 12)]
 
     def run(self):
         """ Main command where the microphone buffer gets read and
