@@ -14,6 +14,7 @@ class AudioAnalyzer(Thread):
 
         queue = ProtectedList()
         analyzer = AudioAnalyzer(queue)
+        analyzer.start()
 
         while True:
             print("Loudest Frequency:", queue.get())
