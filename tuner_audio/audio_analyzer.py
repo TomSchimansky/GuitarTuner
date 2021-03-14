@@ -17,9 +17,8 @@ class AudioAnalyzer(Thread):
         analyzer.start()
 
         while True:
-            print("Loudest Frequency:", queue.get())
+            print("Loudest Frequency:", queue.get()) """
 
-        """
     def __init__(self, queue, *args, **kwargs):
         Thread.__init__(self, *args, **kwargs)
 

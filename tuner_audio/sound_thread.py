@@ -10,13 +10,15 @@ class SoundThread(Thread):
 
     def __init__(self, path_to_file):
         Thread.__init__(self)
+
         self.running = False
         self.data_chunk_size = 1024
 
         self.audio_file = wave.open(path_to_file, "rb")
         self.audio_file_data = []
 
-        while True:  # load audio file
+        # load audio file into audio_file_data
+        while True:
             data = self.audio_file.readframes(self.data_chunk_size)
             if data != b'':
                 self.audio_file_data.append(data)
