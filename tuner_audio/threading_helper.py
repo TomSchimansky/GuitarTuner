@@ -3,11 +3,11 @@ from threading import Lock
 
 class ProtectedList(object):
     """ Simple queue to share data between Threads with lock protection.
-        Standard buffer length is only 16! """
+        Standard buffer length is only 8! """
 
-    def __init__(self, buffer=16):
+    def __init__(self, buffer_size=8):
         self.elements = []
-        self.buffer_length = buffer
+        self.buffer_size = buffer_size
         self.lock = Lock()
 
     def put(self, element):
@@ -17,7 +17,7 @@ class ProtectedList(object):
         self.elements.append(element)
 
         # delete oldest element if list is too long
-        if len(self.elements) > self.buffer_length:
+        if len(self.elements) > self.buffer_size:
             self.elements.pop(0)
 
         self.lock.release()
@@ -44,4 +44,3 @@ class ProtectedList(object):
 
         self.lock.release()
         return string
-
