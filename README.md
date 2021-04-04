@@ -31,6 +31,7 @@ So the preferred way to run the program would be with anaconda-python (you have 
 conda activate base
 pip install -r requirements.txt
 python main.py
+   ...
 conda deactivate
 ```
 
