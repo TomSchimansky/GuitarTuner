@@ -34,6 +34,8 @@ python main.py
 conda deactivate
 ```
 
+Install miniconda python version: https://docs.conda.io/en/latest/miniconda.html
+
 ### Create standalone application
 You can also create a standalone application for macOS or Windows by yourself. For macOS you can use py2app:
 ```
