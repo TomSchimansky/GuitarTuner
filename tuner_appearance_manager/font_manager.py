@@ -6,10 +6,6 @@ class FontManager(object):
         because on windows the text is displayed much larger """
 
     def __init__(self):
-        self.button_font = None
-        self.note_display_font = None
-        self.info_text_font = None
-        self.settings_text_font = None
 
         if sys.platform == "darwin":  # macOS
             self.button_font = ("Avenir", 18)

@@ -1,3 +1,6 @@
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/TomSchimansky/GuitarTuner)
+![GitHub all releases](https://img.shields.io/github/downloads/TomSchimansky/GuitarTuner/total?color=green&label=macOS%20release%20downloads)
+
 # GuitarTuner App
 ![](documentation/readme_images/Preview_Dark.png)
 This is a simple **guitar tuner** program written in Python with Tkinter, PyAudio and NumPy.
