@@ -1,5 +1,6 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/TomSchimansky/GuitarTuner)
 ![GitHub all releases](https://img.shields.io/github/downloads/TomSchimansky/GuitarTuner/total?color=green&label=macOS%20release%20downloads)
+![GitHub Release Date](https://img.shields.io/github/release-date/TomSchimansky/GuitarTuner?color=green)
 
 # GuitarTuner App
 ![](documentation/readme_images/Preview_Dark.png)
