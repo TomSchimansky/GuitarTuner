@@ -2,6 +2,9 @@ import tkinter
 import tkinter.messagebox
 import os
 import sys
+import json
+import requests
+import webbrowser
 import numpy as np
 from distutils.version import StrictVersion as Version
 
@@ -48,8 +51,10 @@ class App(tkinter.Tk):
 
         self.timer = Timer(Settings.FPS)
 
-        self.needle_buffer_array = np.zeros(5)
+        self.needle_buffer_array = np.zeros(Settings.NEEDLE_BUFFER_LENGTH)
         self.tone_hit_counter = 0
+        self.note_name_counter = 0
+        self.last_note_name = ""
         self.a4_frequency = 440
 
         self.dark_mode_active = False
@@ -82,6 +87,9 @@ class App(tkinter.Tk):
 
         self.draw_main_frame()
 
+        if self.read_user_setting("bell_muted") is True:
+            self.main_frame.button_mute.set_pressed(True)
+
     @staticmethod
     def about_dialog():
         tkinter.messagebox.showinfo(title=Settings.APP_NAME,
@@ -95,7 +103,46 @@ class App(tkinter.Tk):
         self.settings_frame.place_forget()
         self.main_frame.place(relx=0, rely=0, relheight=1, relwidth=1)
 
+    def check_for_updates(self):
+        try:
+            response = requests.get(Settings.GITHUB_API_URL + "/releases/latest")
+            latest_version = response.json()["tag_name"]
+        except Exception as err:
+            sys.stderr.write(str(err) + "/n")
+            return
+
+        if self.read_user_setting("check_for_updates") is True:
+            if Version(latest_version) > Version(Settings.VERSION):
+                answer = tkinter.messagebox.askyesno(title=Settings.APP_NAME,
+                                                     message="A new version of this app is available. \n\n" +
+                                                             "Do you want to download it?")
+                if answer is True:
+                    webbrowser.open(Settings.GITHUB_URL + "/releases/latest")
+                else:
+                    answer = tkinter.messagebox.askyesno(title=Settings.APP_NAME,
+                                                         message="Ask again next time? \n\n")
+                    if answer is False:
+                        self.write_user_setting("check_for_updates", False)
+
+    def write_user_setting(self, setting, value):
+        with open(self.main_path + Settings.USER_SETTINGS_PATH, "r") as file:
+            user_settings = json.load(file)
+
+        user_settings[setting] = value
+
+        with open(self.main_path + Settings.USER_SETTINGS_PATH, "w") as file:
+            json.dump(user_settings, file)
+
+    def read_user_setting(self, setting):
+        with open(self.main_path + Settings.USER_SETTINGS_PATH) as file:
+            user_settings = json.load(file)
+
+        return user_settings[setting]
+
     def on_closing(self, event=0):
+        self.write_user_setting("bell_muted", self.main_frame.button_mute.is_pressed())
+        self.check_for_updates()
+
         if sys.platform == "darwin":  # macOS
             if Version(tkinter.Tcl().call("info", "patchlevel")) >= Version("8.6.9"):  # Tcl/Tk >= 8.6.9
                 os.system("defaults delete -g NSRequiresAquaSystemAppearance")  # Only for dark-mode testing!
@@ -146,6 +193,18 @@ class App(tkinter.Tk):
                     # calculate the angle of the display needle
                     needle_angle = -90 * ((freq_difference / difference_next_note) * 2)
 
+                    # buffer the note name change
+                    if nearest_note_name != self.last_note_name:
+                        self.note_name_counter += 1
+
+                        if self.note_name_counter >= Settings.HITS_TILL_NOTE_NAME_UPDATE:
+                            self.last_note_name = nearest_note_name
+                            self.note_name_counter = 0
+                        else:
+                            nearest_note_name = self.last_note_name
+                    else:
+                        self.note_name_counter = 0
+
                     # if needle in range +-5 degrees then make it green, otherwise red
                     if abs(needle_angle) < 5:
                         self.main_frame.set_needle_color("green")
@@ -158,7 +217,7 @@ class App(tkinter.Tk):
                     if self.tone_hit_counter > 7:
                         self.tone_hit_counter = 0
 
-                        if self.main_frame.button_mute.pressed is not True:
+                        if self.main_frame.button_mute.is_pressed() is not True:
                             self.play_sound_thread.play_sound()
 
                     # update needle buffer array

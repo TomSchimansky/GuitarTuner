@@ -178,7 +178,7 @@ class MainFrame(tkinter.Frame):
         return x, y
 
     def set_note_name(self, note_name):
-        self.note_label.configure(text=note_name, width=len(note_name)+1)  # dont question the +1, just works better
+        self.note_label.configure(text=note_name, width=3)
 
     def set_frequency(self, frequency):
         self.button_frequency.set_text(str(frequency))

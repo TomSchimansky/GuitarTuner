@@ -63,10 +63,21 @@ class TkinterCustomButtonImageset(tkinter.Frame):
             self.label.configure(image=self.image_dict["clicked"])
 
     def clicked(self, event):
+        if self.pressed is False:
+            self.pressed = True
+            self.label.configure(image=self.image_dict["clicked"])
+        else:
+            self.pressed = False
+            self.label.configure(image=self.image_dict["standard"])
+
         if self.function:
             self.function()
 
-        if self.pressed is False:
+    def is_pressed(self):
+        return self.pressed
+
+    def set_pressed(self, pressed):
+        if pressed is True:
             self.pressed = True
             self.label.configure(image=self.image_dict["clicked"])
         else:

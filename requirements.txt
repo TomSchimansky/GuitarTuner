@@ -1,6 +1,7 @@
 numpy~=1.20.0
-setuptools~=53.0.0
+setuptools~=52.0.0
 PyAudio~=0.2.11
 py2app~=0.21
 Pillow~=8.1.0
 darkdetect~=0.1.1
+requests~=2.25.1

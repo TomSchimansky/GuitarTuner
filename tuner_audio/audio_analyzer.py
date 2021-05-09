@@ -24,6 +24,7 @@ class AudioAnalyzer(Thread):
 
         self.queue = queue  # queue is should be instance of ProtectedList (threading_helper.ProtectedList)
         self.buffer = np.zeros(Settings.CHUNK_SIZE * Settings.BUFFER_TIMES)
+        self.hanning_window = np.hanning(len(self.buffer))
         self.running = False
 
         try:
@@ -82,12 +83,14 @@ class AudioAnalyzer(Thread):
                 self.buffer[:-Settings.CHUNK_SIZE] = self.buffer[Settings.CHUNK_SIZE:]
                 self.buffer[-Settings.CHUNK_SIZE:] = data
 
-                # apply the fourier transformation on the whole buffer
-                numpydata = abs(np.fft.fft(self.buffer))
+                # apply the fourier transformation on the whole buffer (with zero-padding)
+                numpydata = abs(np.fft.fft(np.pad(self.buffer * self.hanning_window,
+                                                  (0, len(self.buffer) * Settings.ZERO_PADDING),
+                                                  "constant")))
                 numpydata = numpydata[:int(len(numpydata) / 2)]
 
-                # get the frequency array
-                frequencies = np.fft.fftfreq(len(numpydata), 1. / Settings.SAMPLING_RATE)
+                # get the frequency array (why "/ 2" at the end? no idea, otherwise frequencies are doubled)
+                frequencies = np.fft.fftfreq(len(numpydata), 1. / Settings.SAMPLING_RATE) / 2
 
                 # put the frequency of the loudest tone into the queue
                 self.queue.put(round(frequencies[np.argmax(numpydata)], 2))
