@@ -4,7 +4,7 @@ class Settings:
 
     """ general settings """
     APP_NAME = "GuitarTuner"
-    VERSION = "3.0"
+    VERSION = "3.1"
     AUTHOR = "Tom Schimansky"
     YEAR = "2021"
 
@@ -34,4 +34,4 @@ class Settings:
     NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 
     NEEDLE_BUFFER_LENGTH = 12
-    HITS_TILL_NOTE_NAME_UPDATE = 6
+    HITS_TILL_NOTE_NAME_UPDATE = 8

@@ -3,3 +3,5 @@
 /tests/
 /product/
 /.eggs/
+/build/
+/dist/

@@ -83,7 +83,7 @@ class AudioAnalyzer(Thread):
                 self.buffer[:-Settings.CHUNK_SIZE] = self.buffer[Settings.CHUNK_SIZE:]
                 self.buffer[-Settings.CHUNK_SIZE:] = data
 
-                # apply the fourier transformation on the whole buffer (with zero-padding)
+                # apply the fourier transformation on the whole buffer (with zero-padding + hanning window)
                 numpydata = abs(np.fft.fft(np.pad(self.buffer * self.hanning_window,
                                                   (0, len(self.buffer) * Settings.ZERO_PADDING),
                                                   "constant")))

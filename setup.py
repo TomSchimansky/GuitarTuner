@@ -12,6 +12,8 @@ USER_NAME = getpass.getuser()
 
 SOUND_FILES = ["assets/sounds/drop.wav"]
 
+DATA_FILES = ["assets/user_settings/user_settings.json"]
+
 IMAGE_FILES = ["assets/images/arrowDown_hovered.png",
                "assets/images/arrowDown.png",
                "assets/images/arrowUp_hovered.png",
@@ -22,7 +24,7 @@ IMAGE_FILES = ["assets/images/arrowDown_hovered.png",
                "assets/images/mutedBell.png"]
 
 OPTIONS = {'argv_emulation': False,
-           'includes': 'numpy, tkinter, PIL, pyaudio, darkdetect',
+           'includes': 'numpy, tkinter, PIL, pyaudio, darkdetect, requests',
            'excludes': '',
            'frameworks': '/Users/{}/miniconda3/lib/libffi.6.dylib,'.format(USER_NAME) +
                          '/Users/{}/miniconda3/lib/libtk8.6.dylib,'.format(USER_NAME) +
@@ -38,7 +40,7 @@ OPTIONS = {'argv_emulation': False,
                'CFBundleVersion': Settings.VERSION,
                'CFBundleShortVersionString': Settings.VERSION,
                'NSRequiresAquaSystemAppearance': False,
-               'NSHumanReadableCopyright': u"Copyright © {}, {}, All Rights Reserved".format(Settings.YEAR, Settings.AUTHOR)
+               'NSHumanReadableCopyright': u"Copyright {}, {}, All Rights Reserved".format(Settings.YEAR, Settings.AUTHOR)
            }}
 
 
@@ -49,6 +51,8 @@ if REMOVE_OLD_BUILD is True:
 setup(name=Settings.APP_NAME,
       app=APP,
       author=Settings.AUTHOR,
-      data_files=[("assets/images", IMAGE_FILES), ("assets/sounds", SOUND_FILES)],
+      data_files=[("assets/images", IMAGE_FILES),
+                  ("assets/sounds", SOUND_FILES),
+                  ("assets/user_settings", DATA_FILES)],
       options={'py2app': OPTIONS},
       setup_requires=['py2app'])
