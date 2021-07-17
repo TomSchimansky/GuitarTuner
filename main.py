@@ -27,7 +27,7 @@ class App(tkinter.Tk):
     def __init__(self, *args, **kwargs):
         if sys.platform == "darwin":  # macOS
             if Version(tkinter.Tcl().call("info", "patchlevel")) >= Version("8.6.9"):  # Tcl/Tk >= 8.6.9
-                # os.system("defaults write -g NSRequiresAquaSystemAppearance -bool No")  # Only for dark-mode testing!
+                os.system("defaults write -g NSRequiresAquaSystemAppearance -bool No")  # Only for dark-mode testing!
                 # WARNING: This command applies macOS dark-mode on all programs. This can cause bugs on some programs.
                 # Currently this works only with anaconda python version (python.org Tcl/Tk version is only 8.6.8).
                 pass
@@ -146,7 +146,7 @@ class App(tkinter.Tk):
 
         if sys.platform == "darwin":  # macOS
             if Version(tkinter.Tcl().call("info", "patchlevel")) >= Version("8.6.9"):  # Tcl/Tk >= 8.6.9
-                # os.system("defaults delete -g NSRequiresAquaSystemAppearance")  # Only for dark-mode testing!
+                os.system("defaults delete -g NSRequiresAquaSystemAppearance")  # Only for dark-mode testing!
                 # This command reverts the dark-mode setting for all programs.
                 pass
 
