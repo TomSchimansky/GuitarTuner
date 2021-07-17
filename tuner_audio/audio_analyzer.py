@@ -89,8 +89,8 @@ class AudioAnalyzer(Thread):
                                                   "constant")))
                 numpydata = numpydata[:int(len(numpydata) / 2)]
 
-                # get the frequency array (why "/ 2" at the end? no idea, otherwise frequencies are doubled)
-                frequencies = np.fft.fftfreq(len(numpydata), 1. / Settings.SAMPLING_RATE) / 2
+                # get the frequency array
+                frequencies = np.fft.fftfreq(len(numpydata)*2, 1. / Settings.SAMPLING_RATE)
 
                 # put the frequency of the loudest tone into the queue
                 self.queue.put(round(frequencies[np.argmax(numpydata)], 2))
