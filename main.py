@@ -26,6 +26,7 @@ try:
 except ImportError:
     """ Usage monitoring not possible, because the module is missing
      (Github Version is missing the module because of private API key) """
+    usage_monitor = None
 
 from settings import Settings
 
@@ -115,35 +116,31 @@ class App(tkinter.Tk):
 
     def manage_usage_stats(self, option, open_times):
 
-        # check if user agreed on usage statistics
-        if self.read_user_setting("agreed_on_usage_stats") is True:
-            try:
-                # send log message with option and open_times data
-                usage_monitor.UsageMonitor.new_log_msg(option, open_times)
-            except NameError:
-                # usage_monitor module could not be loaded
-                pass
-        else:
-            # open dialog to ask for usage statistics permission
-            answer = tkinter.messagebox.askyesno(title=Settings.APP_NAME,
-                                                 message="GuitarTuner uses your IP-address to estimate your " +
-                                                         "region and collects data on how often the app is being opened.\n" +
-                                                         "No personal data gets sent and the data is only used to " +
-                                                         "determine how often the app is really used.\n\n" +
-                                                         "Do you agree?")
-            if answer is True:
-                # save user permission
-                self.write_user_setting("agreed_on_usage_stats", True)
+        # check usage_monitor module could be loaded
+        if usage_monitor is not None:
 
-                try:
+            # check if user agreed on usage statistics
+            if self.read_user_setting("agreed_on_usage_stats") is True:
+
+                # send log message with option and open_times data
+                 usage_monitor.UsageMonitor.new_log_msg(option, open_times)
+            else:
+                # open dialog to ask for usage statistics permission
+                answer = tkinter.messagebox.askyesno(title=Settings.APP_NAME,
+                                                     message="GuitarTuner uses your IP-address to estimate your " +
+                                                             "region and collects data on how often the app is being opened.\n" +
+                                                             "No personal data gets sent and the data is only used to " +
+                                                             "determine how often the app is really used.\n\n" +
+                                                             "Do you agree?")
+                if answer is True:
+                    # save user permission
+                    self.write_user_setting("agreed_on_usage_stats", True)
+
                     # send log message with option and open_times data
                     usage_monitor.UsageMonitor.new_log_msg(option, open_times)
-                except NameError:
-                    # usage_monitor module could not be loaded
-                    pass
-            else:
-                # close program if user doesnt agree
-                self.on_closing()
+                else:
+                    # close program if user doesnt agree
+                    self.on_closing()
 
     def check_for_updates(self):
         if self.read_user_setting("check_for_updates") is True:
