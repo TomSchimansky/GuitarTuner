@@ -5,6 +5,7 @@ import sys
 import json
 import requests
 import webbrowser
+import time
 import numpy as np
 from distutils.version import StrictVersion as Version
 
@@ -19,6 +20,12 @@ from tuner_appearance_manager.timing import Timer
 
 from tuner_ui_parts.main_frame import MainFrame
 from tuner_ui_parts.settings_frame import SettingsFrame
+
+try:
+    from usage_monitoring import usage_monitor
+except ImportError:
+    """ Usage monitoring not possible, because the module is missing
+     (Github Version is missing the module because of private API key) """
 
 from settings import Settings
 
@@ -91,6 +98,8 @@ class App(tkinter.Tk):
         if self.read_user_setting("bell_muted") is True:
             self.main_frame.button_mute.set_pressed(True)
 
+        self.open_app_time = time.time()
+
     @staticmethod
     def about_dialog():
         tkinter.messagebox.showinfo(title=Settings.APP_NAME,
@@ -104,15 +113,47 @@ class App(tkinter.Tk):
         self.settings_frame.place_forget()
         self.main_frame.place(relx=0, rely=0, relheight=1, relwidth=1)
 
-    def check_for_updates(self):
-        try:
-            response = requests.get(Settings.GITHUB_API_URL + "/releases/latest")
-            latest_version = response.json()["tag_name"]
-        except Exception as err:
-            sys.stderr.write(str(err) + "/n")
-            return
+    def manage_usage_stats(self, option, open_times):
 
+        # check if user agreed on usage statistics
+        if self.read_user_setting("agreed_on_usage_stats") is True:
+            try:
+                # send log message with option and open_times data
+                usage_monitor.UsageMonitor.new_log_msg(option, open_times)
+            except NameError:
+                # usage_monitor module could not be loaded
+                pass
+        else:
+            # open dialog to ask for usage statistics permission
+            answer = tkinter.messagebox.askyesno(title=Settings.APP_NAME,
+                                                 message="GuitarTuner uses your IP-address to estimate your " +
+                                                         "region and collects data on how often the app is being opened.\n" +
+                                                         "No personal data gets sent and the data is only used to " +
+                                                         "determine how often the app is really used.\n\n" +
+                                                         "Do you agree?")
+            if answer is True:
+                # save user permission
+                self.write_user_setting("agreed_on_usage_stats", True)
+
+                try:
+                    # send log message with option and open_times data
+                    usage_monitor.UsageMonitor.new_log_msg(option, open_times)
+                except NameError:
+                    # usage_monitor module could not be loaded
+                    pass
+            else:
+                # close program if user doesnt agree
+                self.on_closing()
+
+    def check_for_updates(self):
         if self.read_user_setting("check_for_updates") is True:
+            try:
+                response = requests.get(Settings.GITHUB_API_URL + "/releases/latest")
+                latest_version = response.json()["tag_name"]
+            except Exception as err:
+                sys.stderr.write(str(err) + "/n")
+                return
+
             if Version(latest_version) > Version(Settings.VERSION):
                 answer = tkinter.messagebox.askyesno(title=Settings.APP_NAME,
                                                      message="A new version of this app is available. \n\n" +
@@ -158,20 +199,30 @@ class App(tkinter.Tk):
         self.main_frame.update_color()
         self.settings_frame.update_color()
 
+    def handle_appearance_mode_change(self):
+        dark_mode_state = self.color_manager.detect_os_dark_mode()
+
+        if dark_mode_state is not self.dark_mode_active:
+            if dark_mode_state is True:
+                self.color_manager.set_mode("Dark")
+            else:
+                self.color_manager.set_mode("Light")
+
+            self.dark_mode_active = dark_mode_state
+            self.update_color()
+
     def start(self):
+        self.handle_appearance_mode_change()
+
+        # handle new usage statistics when program is started
+        self.write_user_setting("open_times", self.read_user_setting("open_times")+1)
+        self.manage_usage_stats("start program", self.read_user_setting("open_times"))
+
         while self.audio_analyzer.running:
 
             try:
                 # handle the change from dark to light mode, light to dark mode
-                dark_mode_state = self.color_manager.detect_os_dark_mode()
-                if dark_mode_state is not self.dark_mode_active:
-                    if dark_mode_state is True:
-                        self.color_manager.set_mode("Dark")
-                    else:
-                        self.color_manager.set_mode("Light")
-
-                    self.dark_mode_active = dark_mode_state
-                    self.update_color()
+                self.handle_appearance_mode_change()
 
                 # get the current frequency from the queue
                 freq = self.frequency_queue.get()
