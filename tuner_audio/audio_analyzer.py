@@ -99,7 +99,7 @@ class AudioAnalyzer(Thread):
 
                 # get the corresponding frequency array
                 frequencies = np.fft.fftfreq(int((len(magnitude_data) * 2) / 1),
-                                             1. / (Settings.SAMPLING_RATE))
+                                             1. / Settings.SAMPLING_RATE)
 
                 # set magnitude of all frequencies below 60Hz to zero
                 for i, freq in enumerate(frequencies):
@@ -127,6 +127,6 @@ if __name__ == "__main__":
     a.start()
 
     while True:
-        data = q.get()
-        if data is not None:
+        q_data = q.get()
+        if q_data is not None:
             pass

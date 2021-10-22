@@ -14,6 +14,7 @@ Windows too if you run it in the command line.
 * High accuracy: < 0.5 cents (around the A4 area)
 * Working from 60 to 2000 Hz (C2 to C7)
 * High stability of the pitch indicator
+* Support for macOS light and dark-mode
 
 **➜️ Download macOS app:** https://github.com/TomSchimansky/GuitarTuner/releases/tag/3.1
 

@@ -283,6 +283,8 @@ class App(tkinter.Tk):
                         diff_cents = (freq_difference / semitone_step) * 100
                     freq_label_text = f"+{round(-diff_cents, 1)} cents" if -diff_cents > 0 else f"{round(-diff_cents, 1)} cents"
                     self.main_frame.set_frequency_difference(freq_label_text)
+
+                    # set current frequency
                     if freq is not None: self.main_frame.set_frequency(freq)
 
                 self.update()
