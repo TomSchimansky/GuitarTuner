@@ -20,7 +20,7 @@ Windows too if you run it in the command line.
 
 ### Functionality
 
-The app is written in Python with Tkinter, PyAudio and numpy. It PyAudio to get access to the raw audio-stream coming from the microphone.
+The app is written in Python with Tkinter, PyAudio and numpy. It uses PyAudio to get access to the raw audio-stream coming from the microphone.
 Then a **fast-fourier-transformation** (```numpy.fft```) is applied on the audio-data, which is buffered for about 1.5 seconds.
 Then a HPS (Harmonic Product Spectrum) operation is applied to filter the harmonic frequencies.
 From the HPS output, you can get the loudest frequency and convert it to a musical note by applying the following

@@ -32,15 +32,6 @@ class Settings:
     FPS = 60  # canvas update rate
     CANVAS_SIZE = 300  # size of the audio-display
 
-    """ audio settings """
-    CHUNK_SIZE = 1024  # samples
-    BUFFER_TIMES = 50  # buffer length = CHUNK_SIZE * BUFFER_TIMES
-    ZERO_PADDING = 3  # times the buffer length
-    SAMPLING_RATE = 48000
-    NUM_HPS = 3  # Harmonic Product Spectrum
-
-    OCTAVE_BANDS = [50, 100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600]
-
     NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 
     NEEDLE_BUFFER_LENGTH = 12

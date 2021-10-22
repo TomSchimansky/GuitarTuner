@@ -20,11 +20,20 @@ class AudioAnalyzer(Thread):
         while True:
             print("Loudest Frequency:", queue.get()) """
 
+    # settings: (are tuned for best detecting string instruments like guitar)
+    SAMPLING_RATE = 48000  # mac hardware: 44100, 48000, 96000
+    CHUNK_SIZE = 1024  # number of samples
+    BUFFER_TIMES = 50  # buffer length = CHUNK_SIZE * BUFFER_TIMES
+    ZERO_PADDING = 3  # times the buffer length
+    NUM_HPS = 3  # Harmonic Product Spectrum
+
+    # overall frequency accuracy:  SAMPLING_RATE / (CHUNK_SIZE * BUFFER_TIMES * (1 + ZERO_PADDING)) Hz
+
     def __init__(self, queue, *args, **kwargs):
         Thread.__init__(self, *args, **kwargs)
 
-        self.queue = queue  # queue is should be instance of ProtectedList (threading_helper.ProtectedList)
-        self.buffer = np.zeros(Settings.CHUNK_SIZE * Settings.BUFFER_TIMES)
+        self.queue = queue  # queue should be instance of ProtectedList (threading_helper.ProtectedList)
+        self.buffer = np.zeros(self.CHUNK_SIZE * self.BUFFER_TIMES)
         self.hanning_window = np.hanning(len(self.buffer))
         self.running = False
 
@@ -32,10 +41,10 @@ class AudioAnalyzer(Thread):
             self.audio_object = PyAudio()
             self.stream = self.audio_object.open(format=paInt16,
                                                  channels=1,
-                                                 rate=Settings.SAMPLING_RATE,
+                                                 rate=self.SAMPLING_RATE,
                                                  input=True,
                                                  output=False,
-                                                 frames_per_buffer=Settings.CHUNK_SIZE)
+                                                 frames_per_buffer=self.CHUNK_SIZE)
         except Exception as e:
             sys.stderr.write('Error: Line {} {} {}\n'.format(sys.exc_info()[-1].tb_lineno, type(e).__name__, e))
             return
@@ -77,29 +86,31 @@ class AudioAnalyzer(Thread):
         while self.running:
             try:
                 # read microphone data
-                data = self.stream.read(Settings.CHUNK_SIZE, exception_on_overflow=False)
+                data = self.stream.read(self.CHUNK_SIZE, exception_on_overflow=False)
                 data = np.frombuffer(data, dtype=np.int16)
 
                 # append data to audio buffer
-                self.buffer[:-Settings.CHUNK_SIZE] = self.buffer[Settings.CHUNK_SIZE:]
-                self.buffer[-Settings.CHUNK_SIZE:] = data
+                self.buffer[:-self.CHUNK_SIZE] = self.buffer[self.CHUNK_SIZE:]
+                self.buffer[-self.CHUNK_SIZE:] = data
 
                 # apply the fourier transformation on the whole buffer (with zero-padding + hanning window)
                 magnitude_data = abs(np.fft.fft(np.pad(self.buffer * self.hanning_window,
-                                                       (0, len(self.buffer) * Settings.ZERO_PADDING),
+                                                       (0, len(self.buffer) * self.ZERO_PADDING),
                                                        "constant")))
                 # only use the first half of the fft output data
                 magnitude_data = magnitude_data[:int(len(magnitude_data) / 2)]
 
                 # HPS: multiply data by itself with different scalings (Harmonic Product Spectrum)
                 magnitude_data_orig = copy.deepcopy(magnitude_data)
-                for i in range(2, Settings.NUM_HPS+1, 1):
+                for i in range(2, self.NUM_HPS+1, 1):
                     hps_len = int(np.ceil(len(magnitude_data) / i))
                     magnitude_data[:hps_len] *= magnitude_data_orig[::i]  # multiply every i element
 
                 # get the corresponding frequency array
                 frequencies = np.fft.fftfreq(int((len(magnitude_data) * 2) / 1),
-                                             1. / Settings.SAMPLING_RATE)
+                                             1. / self.SAMPLING_RATE)
+
+                print(frequencies[0], frequencies[1])
 
                 # set magnitude of all frequencies below 60Hz to zero
                 for i, freq in enumerate(frequencies):
