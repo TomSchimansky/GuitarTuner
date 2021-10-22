@@ -18,7 +18,8 @@ class AudioAnalyzer(Thread):
         analyzer.start()
 
         while True:
-            print("Loudest Frequency:", queue.get()) """
+            freq = queue.get()
+            print("Loudest Frequency:", freq, "Note:", analyzer.frequency_to_note_name(freq)) """
 
     # settings: (are tuned for best detecting string instruments like guitar)
     SAMPLING_RATE = 48000  # mac hardware: 44100, 48000, 96000
@@ -28,6 +29,8 @@ class AudioAnalyzer(Thread):
     NUM_HPS = 3  # Harmonic Product Spectrum
 
     # overall frequency accuracy:  SAMPLING_RATE / (CHUNK_SIZE * BUFFER_TIMES * (1 + ZERO_PADDING)) Hz
+
+    NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 
     def __init__(self, queue, *args, **kwargs):
         Thread.__init__(self, *args, **kwargs)
@@ -67,7 +70,7 @@ class AudioAnalyzer(Thread):
     def number_to_note_name(number):
         """ converts a note number to a note name (for example: 69 returns 'A', 70 returns 'A#', ... ) """
 
-        return Settings.NOTE_NAMES[int(round(number) % 12)]
+        return AudioAnalyzer.NOTE_NAMES[int(round(number) % 12)]
 
     @staticmethod
     def frequency_to_note_name(frequency, a4_freq):

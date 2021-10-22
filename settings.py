@@ -32,7 +32,5 @@ class Settings:
     FPS = 60  # canvas update rate
     CANVAS_SIZE = 300  # size of the audio-display
 
-    NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
-
     NEEDLE_BUFFER_LENGTH = 12
     HITS_TILL_NOTE_NAME_UPDATE = 8
