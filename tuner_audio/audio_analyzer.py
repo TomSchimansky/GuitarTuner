@@ -9,7 +9,7 @@ class AudioAnalyzer(Thread):
     """ This AudioAnalyzer reads the microphone and finds the frequency of the loudest tone.
         To use it, you also need the ProtectedList class from the file threading_helper.py.
         You need to created an instance of the ProtectedList, which acts as a queue, and you
-        have to pass this queue to the AudioAnalyzer. Then you can read the values from the queue.
+        have to pass this queue to the AudioAnalyzer. Then you can read the values from the queue:
 
         queue = ProtectedList()
         analyzer = AudioAnalyzer(queue)
@@ -17,7 +17,8 @@ class AudioAnalyzer(Thread):
 
         while True:
             freq = queue.get()
-            print("loudest frequency:", freq, "nearest note:", analyzer.frequency_to_note_name(freq)) """
+            print("loudest frequency:", q_data, "nearest note:", a.frequency_to_note_name(q_data, 440))
+            time.sleep(0.02) """
 
     # settings: (are tuned for best detecting string instruments like guitar)
     SAMPLING_RATE = 48000  # mac hardware: 44100, 48000, 96000
@@ -26,7 +27,8 @@ class AudioAnalyzer(Thread):
     ZERO_PADDING = 3  # times the buffer length
     NUM_HPS = 3  # Harmonic Product Spectrum
 
-    # overall frequency accuracy:  SAMPLING_RATE / (CHUNK_SIZE * BUFFER_TIMES * (1 + ZERO_PADDING)) Hz
+    # overall frequency accuracy (step-size):  SAMPLING_RATE / (CHUNK_SIZE * BUFFER_TIMES * (1 + ZERO_PADDING)) Hz
+    #               buffer length in seconds:  (CHUNK_SIZE * BUFFER_TIMES) / SAMPLING_RATE sec
 
     NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 
@@ -57,11 +59,13 @@ class AudioAnalyzer(Thread):
         if freq == 0:
             sys.stderr.write("Error: No frequency data. Program has potentially no access to microphone\n")
             return 0
+
         return 12 * np.log2(freq / a4_freq) + 69
 
     @staticmethod
     def number_to_frequency(number, a4_freq):
         """ converts a note number (A4 is 69) back to a frequency """
+
         return a4_freq * 2.0**((number - 69) / 12.0)
 
     @staticmethod
@@ -79,7 +83,7 @@ class AudioAnalyzer(Thread):
         return note_name
 
     def run(self):
-        """ Main command where the microphone buffer gets read and
+        """ Main function where the microphone buffer gets read and
             the fourier transformation gets applied """
 
         self.running = True
@@ -131,12 +135,14 @@ class AudioAnalyzer(Thread):
 if __name__ == "__main__":
     # Only for testing:
     from tuner_audio.threading_helper import ProtectedList
+    import time
 
-    q = ProtectedList(buffer_size=1)
+    q = ProtectedList()
     a = AudioAnalyzer(q)
     a.start()
 
     while True:
         q_data = q.get()
         if q_data is not None:
-            pass
+            print("loudest frequency:", q_data, "nearest note:", a.frequency_to_note_name(q_data, 440))
+            time.sleep(0.02)
