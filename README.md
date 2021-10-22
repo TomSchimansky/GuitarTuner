@@ -4,18 +4,25 @@
 
 # GuitarTuner App
 ![](documentation/readme_images/Preview_Dark.png)
-This is a simple **guitar tuner** program written in Python with Tkinter, PyAudio and NumPy.
+This is a simple **chromatic tuner** designed for guitar tuning, but it should also work with every other instrument.
 The played note is automatically recognized through the microphone, and an acoustic signal is
 heard when the tuning is correct. If you want you can also change the reference-tone to another
-frequency.
+frequency. At the moment, a compiled version is only available for macOS, but you can use it on
+Windows too if you run it in the command line.
 
-**Download macOS app:** https://github.com/TomSchimansky/GuitarTuner/releases/tag/3.1
+* Automatic tone detection
+* High accuracy: < 0.5 cents (around the A4 area)
+* Working from 60 to 2000 Hz (C2 to C7)
+* High stability of the pitch indicator
+
+**➜️ Download macOS app:** https://github.com/TomSchimansky/GuitarTuner/releases/tag/3.1
 
 ### Functionality
 
-The app uses PyAudio to get access to the raw audio-stream coming from the microphone.
+The app is written in Python with Tkinter, PyAudio and numpy. It PyAudio to get access to the raw audio-stream coming from the microphone.
 Then a **fast-fourier-transformation** (```numpy.fft```) is applied on the audio-data, which is buffered for about 1.5 seconds.
-From the fft output, you can get the loudest frequency and convert it to a musical note by applying the following
+Then a HPS (Harmonic Product Spectrum) operation is applied to filter the harmonic frequencies.
+From the HPS output, you can get the loudest frequency and convert it to a musical note by applying the following
 formula: ```12 * numpy.log2(f / a4_frequency) + 69```.
 
 ### Run GuitarTuner with python

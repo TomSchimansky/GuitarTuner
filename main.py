@@ -7,6 +7,7 @@ import requests
 import webbrowser
 import time
 import numpy as np
+import random
 from distutils.version import StrictVersion as Version
 
 from tuner_audio.audio_analyzer import AudioAnalyzer
@@ -114,7 +115,7 @@ class App(tkinter.Tk):
         self.settings_frame.place_forget()
         self.main_frame.place(relx=0, rely=0, relheight=1, relwidth=1)
 
-    def manage_usage_stats(self, option, open_times):
+    def manage_usage_stats(self, option, open_times, id):
 
         # check usage_monitor module could be loaded
         if usage_monitor is not None:
@@ -123,21 +124,17 @@ class App(tkinter.Tk):
             if self.read_user_setting("agreed_on_usage_stats") is True:
 
                 # send log message with option and open_times data
-                 usage_monitor.UsageMonitor.new_log_msg(option, open_times)
+                 usage_monitor.UsageMonitor.new_log_msg(option, open_times, id)
             else:
                 # open dialog to ask for usage statistics permission
                 answer = tkinter.messagebox.askyesno(title=Settings.APP_NAME,
-                                                     message="GuitarTuner uses your IP-address to estimate your " +
-                                                             "region and collects data on how often the app is being opened.\n" +
-                                                             "No personal data gets sent and the data is only used to " +
-                                                             "determine how often the app is really used.\n\n" +
-                                                             "Do you agree?")
+                                                     message=Settings.STATISTICS_AGREEMENT)
                 if answer is True:
                     # save user permission
                     self.write_user_setting("agreed_on_usage_stats", True)
 
                     # send log message with option and open_times data
-                    usage_monitor.UsageMonitor.new_log_msg(option, open_times)
+                    usage_monitor.UsageMonitor.new_log_msg(option, open_times, id)
                 else:
                     # close program if user doesnt agree
                     self.on_closing()
@@ -212,8 +209,9 @@ class App(tkinter.Tk):
         self.handle_appearance_mode_change()
 
         # handle new usage statistics when program is started
+        if self.read_user_setting("id") is None: self.write_user_setting("id", random.randint(10**20, (10**21)-1))
         self.write_user_setting("open_times", self.read_user_setting("open_times")+1)
-        self.manage_usage_stats("start program", self.read_user_setting("open_times"))
+        self.manage_usage_stats("start", self.read_user_setting("open_times"), self.read_user_setting("id"))
 
         while self.audio_analyzer.running:
 
@@ -237,11 +235,11 @@ class App(tkinter.Tk):
                     freq_difference = nearest_note_freq - freq
 
                     # calculate the frequency difference to the next note (-1)
-                    difference_next_note = nearest_note_freq - self.audio_analyzer.number_to_frequency(round(number-1),
-                                                                                                       self.a4_frequency)
+                    semitone_step = nearest_note_freq - self.audio_analyzer.number_to_frequency(round(number-1),
+                                                                                                self.a4_frequency)
 
                     # calculate the angle of the display needle
-                    needle_angle = -90 * ((freq_difference / difference_next_note) * 2)
+                    needle_angle = -90 * ((freq_difference / semitone_step) * 2)
 
                     # buffer the note name change
                     if nearest_note_name != self.last_note_name:
@@ -256,7 +254,7 @@ class App(tkinter.Tk):
                         self.note_name_counter = 0
 
                     # if needle in range +-5 degrees then make it green, otherwise red
-                    if abs(needle_angle) < 5:
+                    if abs(freq_difference) < 0.25:
                         self.main_frame.set_needle_color("green")
                         self.tone_hit_counter += 1
                     else:
@@ -277,7 +275,15 @@ class App(tkinter.Tk):
                     # update ui elements
                     self.main_frame.set_needle_angle(np.average(self.needle_buffer_array))
                     self.main_frame.set_note_name(note_name=nearest_note_name)
-                    self.main_frame.set_frequency(str(round(-freq_difference, 1)) + " Hz")
+
+                    # calculate difference in cents
+                    if semitone_step == 0:
+                        diff_cents = 0
+                    else:
+                        diff_cents = (freq_difference / semitone_step) * 100
+                    freq_label_text = f"+{round(-diff_cents, 1)} cents" if -diff_cents > 0 else f"{round(-diff_cents, 1)} cents"
+                    self.main_frame.set_frequency_difference(freq_label_text)
+                    if freq is not None: self.main_frame.set_frequency(freq)
 
                 self.update()
                 self.timer.wait()

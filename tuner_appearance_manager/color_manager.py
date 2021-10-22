@@ -8,6 +8,7 @@ class ColorManager(object):
         self.background_layer_0 = None
         self.text_main = None
         self.text_2 = None
+        self.text_2_highlight = None
         self.theme_main = None
         self.theme_dark = None
         self.theme_light = None
@@ -22,6 +23,7 @@ class ColorManager(object):
             self.background_layer_0 = self.rgb_to_hex((33, 33, 33))
             self.text_main = self.rgb_to_hex((255, 255, 255))
             self.text_2 = self.rgb_to_hex((169, 169, 169))
+            self.text_2_highlight = self.rgb_to_hex((240, 240, 240))
             self.theme_main = self.rgb_to_hex((51, 94, 145))
             self.theme_dark = self.rgb_to_hex((26, 51, 82))
             self.theme_light = self.rgb_to_hex((85, 140, 200))
@@ -33,6 +35,7 @@ class ColorManager(object):
             self.background_layer_0 = self.rgb_to_hex((209, 208, 206))
             self.text_main = self.rgb_to_hex((0, 0, 0))
             self.text_2 = self.rgb_to_hex((44, 44, 44))
+            self.text_2_highlight = self.rgb_to_hex((0, 0, 0))
             self.theme_main = self.rgb_to_hex((83, 147, 213))
             self.theme_dark = self.rgb_to_hex((51, 94, 145))
             self.theme_light = self.rgb_to_hex((128, 175, 223))

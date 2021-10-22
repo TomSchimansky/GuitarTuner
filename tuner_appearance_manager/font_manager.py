@@ -8,10 +8,11 @@ class FontManager(object):
     def __init__(self):
 
         if sys.platform == "darwin":  # macOS
-            self.button_font = ("Avenir", 18)
+            self.button_font = ("Avenir", 16)
             self.note_display_font = ("Avenir", 74)
-            self.info_text_font = ("Avenir", 16)
-            self.settings_text_font = ("Avenir", 28)
+            self.info_text_font = ("Avenir", 14)
+            self.frequency_text_font = ("Avenir", 15)
+            self.settings_text_font = ("Avenir", 24)
 
         elif "win" in sys.platform:  # Windows
             self.button_font = ("Century Gothic", 14)

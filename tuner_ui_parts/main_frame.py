@@ -39,16 +39,17 @@ class MainFrame(tkinter.Frame):
                                                                      Settings.CANVAS_SIZE * 0.5,
                                                                      -Settings.CANVAS_SIZE * 0.5,
                                                                      fill=self.color_manager.background_layer_1,
-                                                                     width=Settings.CANVAS_SIZE * 0.06)
+                                                                     width=Settings.CANVAS_SIZE * 0.05)
 
-        self.needle_width = 9
+        self.needle_width = 8
 
         self.display_needle = self.under_canvas.create_line(Settings.CANVAS_SIZE * 0.5,
                                                             Settings.CANVAS_SIZE * 0.5,
                                                             Settings.CANVAS_SIZE * 0.5,
                                                             Settings.CANVAS_SIZE * 0.05,
                                                             fill=self.color_manager.needle,
-                                                            width=self.needle_width)
+                                                            width=self.needle_width,
+                                                            capstyle=tkinter.ROUND)
 
         self.display_inner_circle_1 = self.under_canvas.create_oval(Settings.CANVAS_SIZE * 0.2,
                                                                     Settings.CANVAS_SIZE * 0.2,
@@ -89,6 +90,16 @@ class MainFrame(tkinter.Frame):
                               rely=0.5,
                               anchor=tkinter.CENTER)
 
+        self.frequency_label = tkinter.Label(master=self,
+                                             text="- Hz",
+                                             bg=self.color_manager.theme_dark,
+                                             fg=self.color_manager.text_2,
+                                             font=self.font_manager.frequency_text_font)
+
+        self.frequency_label.place(relx=0.5,
+                                   rely=0.62,
+                                   anchor=tkinter.CENTER)
+
         self.button_frequency = TkinterCustomButton(master=self.botton_frame,
                                                     bg_color=self.color_manager.background_layer_0,
                                                     fg_color=self.color_manager.theme_main,
@@ -97,8 +108,8 @@ class MainFrame(tkinter.Frame):
                                                     text="440 Hz",
                                                     text_color=self.color_manager.text_main,
                                                     corner_radius=10,
-                                                    width=120,
-                                                    height=45,
+                                                    width=110,
+                                                    height=40,
                                                     hover=False,
                                                     command=None)
 
@@ -114,8 +125,8 @@ class MainFrame(tkinter.Frame):
                                                text="Info",
                                                text_color=self.color_manager.text_main,
                                                corner_radius=10,
-                                               width=120,
-                                               height=45,
+                                               width=110,
+                                               height=40,
                                                command=self.master.draw_settings_frame)
 
         self.button_info.place(anchor=tkinter.SE,
@@ -146,6 +157,7 @@ class MainFrame(tkinter.Frame):
         self.upper_canvas.itemconfig(self.display_inner_circle_2, fill=self.color_manager.theme_dark)
 
         self.note_label.configure(bg=self.color_manager.theme_dark, fg=self.color_manager.text_2)
+        self.frequency_label.configure(bg=self.color_manager.theme_dark, fg=self.color_manager.text_2)
         self.button_mute.label.configure(bg=self.color_manager.background_layer_1)
 
         self.botton_frame.configure(bg=self.color_manager.background_layer_0)
@@ -163,8 +175,10 @@ class MainFrame(tkinter.Frame):
     def set_needle_color(self, color):
         if color == "green":
             self.under_canvas.itemconfig(self.display_needle, fill=self.color_manager.needle_hit)
+            self.note_label.configure(fg=self.color_manager.text_2_highlight, font=self.font_manager.note_display_font)
         elif color == "red":
             self.under_canvas.itemconfig(self.display_needle, fill=self.color_manager.needle)
+            self.note_label.configure(fg=self.color_manager.text_2, font=self.font_manager.note_display_font)
 
     def set_needle_angle(self, deg):
         x = sin(radians(180 - deg))
@@ -181,4 +195,7 @@ class MainFrame(tkinter.Frame):
         self.note_label.configure(text=note_name, width=3)
 
     def set_frequency(self, frequency):
+        self.frequency_label.configure(text=str(round(frequency, 1)) + " Hz")
+
+    def set_frequency_difference(self, frequency):
         self.button_frequency.set_text(str(frequency))

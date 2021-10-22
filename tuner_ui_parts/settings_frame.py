@@ -1,4 +1,5 @@
 import tkinter
+import webbrowser
 
 from tuner_ui_parts.tkinter_custom_button_imageset import TkinterCustomButtonImageset
 from tuner_ui_parts.tkinter_custom_button import TkinterCustomButton
@@ -18,8 +19,9 @@ class SettingsFrame(tkinter.Frame):
 
         self.bottom_frame = tkinter.Frame(master=self,
                                           bg=self.color_manager.background_layer_0)
-        self.bottom_frame.place(relx=0,
-                                rely=0.8,
+        self.bottom_frame.place(anchor=tkinter.S,
+                                relx=0.5,
+                                rely=1,
                                 relheight=0.2,
                                 relwidth=1)
 
@@ -31,15 +33,29 @@ class SettingsFrame(tkinter.Frame):
                                                text="Back",
                                                text_color=self.color_manager.text_main,
                                                corner_radius=10,
-                                               width=120,
-                                               height=45,
+                                               width=110,
+                                               height=40,
                                                command=self.master.draw_main_frame)
 
         self.button_back.place(anchor=tkinter.SE,
                                relx=0.95,
-                               rely=0.75,
-                               height=45,
-                               width=120)
+                               rely=0.75)
+
+        self.button_website = TkinterCustomButton(master=self.bottom_frame,
+                                                  bg_color=self.color_manager.background_layer_0,
+                                                  fg_color=self.color_manager.theme_main,
+                                                  hover_color=self.color_manager.theme_light,
+                                                  text_font=self.font_manager.button_font,
+                                                  text="Website",
+                                                  text_color=self.color_manager.text_main,
+                                                  corner_radius=10,
+                                                  width=110,
+                                                  height=40,
+                                                  command=self.website_button)
+
+        self.button_website.place(anchor=tkinter.SW,
+                                  relx=0.05,
+                                  rely=0.75)
 
         self.label_info_text = tkinter.Label(master=self,
                                              bg=self.color_manager.background_layer_1,
@@ -118,6 +134,11 @@ class SettingsFrame(tkinter.Frame):
                                          hover_color=self.color_manager.theme_light,
                                          text_color=self.color_manager.text_main)
 
+        self.button_website.configure_color(bg_color=self.color_manager.background_layer_0,
+                                            fg_color=self.color_manager.theme_main,
+                                            hover_color=self.color_manager.theme_light,
+                                            text_color=self.color_manager.text_main)
+
         self.label_info_text.configure(bg=self.color_manager.background_layer_1, fg=self.color_manager.text_2)
         self.label_note_text.configure(bg=self.color_manager.background_layer_1, fg=self.color_manager.text_2)
 
@@ -136,3 +157,6 @@ class SettingsFrame(tkinter.Frame):
     def frequency_button_down(self):
         self.master.a4_frequency -= 1
         self.label_frequency.set_text(str(self.master.a4_frequency) + " Hz")
+
+    def website_button(self):
+        webbrowser.open(Settings.GITHUB_URL_README)

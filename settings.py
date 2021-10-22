@@ -10,6 +10,13 @@ class Settings:
 
     GITHUB_API_URL = "https://api.github.com/repos/TomSchimansky/GuitarTuner"
     GITHUB_URL = "https://github.com/TomSchimansky/GuitarTuner"
+    GITHUB_URL_README = "https://github.com/TomSchimansky/GuitarTuner#readme"
+
+    STATISTICS_AGREEMENT = "GuitarTuner uses your IP-address to estimate your " + \
+                           "region and collects data on how often the app is being opened.\n" + \
+                           "No personal data gets sent and the data is only used to " + \
+                           "determine how often the app is really used.\n\n" + \
+                           "Do you agree?"
 
     USER_SETTINGS_PATH = "/assets/user_settings/user_settings.json"
 
@@ -27,9 +34,12 @@ class Settings:
 
     """ audio settings """
     CHUNK_SIZE = 1024  # samples
-    BUFFER_TIMES = 48  # buffer length = CHUNK_SIZE * BUFFER_TIMES
+    BUFFER_TIMES = 50  # buffer length = CHUNK_SIZE * BUFFER_TIMES
     ZERO_PADDING = 3  # times the buffer length
-    SAMPLING_RATE = 44100
+    SAMPLING_RATE = 48000
+    NUM_HPS = 3  # Harmonic Product Spectrum
+
+    OCTAVE_BANDS = [50, 100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600]
 
     NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 

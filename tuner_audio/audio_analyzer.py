@@ -1,3 +1,4 @@
+import copy
 from pyaudio import PyAudio, paInt16
 from threading import Thread
 import numpy as np
@@ -84,16 +85,30 @@ class AudioAnalyzer(Thread):
                 self.buffer[-Settings.CHUNK_SIZE:] = data
 
                 # apply the fourier transformation on the whole buffer (with zero-padding + hanning window)
-                numpydata = abs(np.fft.fft(np.pad(self.buffer * self.hanning_window,
-                                                  (0, len(self.buffer) * Settings.ZERO_PADDING),
-                                                  "constant")))
-                numpydata = numpydata[:int(len(numpydata) / 2)]
+                magnitude_data = abs(np.fft.fft(np.pad(self.buffer * self.hanning_window,
+                                                       (0, len(self.buffer) * Settings.ZERO_PADDING),
+                                                       "constant")))
+                # only use the first half of the fft output data
+                magnitude_data = magnitude_data[:int(len(magnitude_data) / 2)]
 
-                # get the frequency array
-                frequencies = np.fft.fftfreq(len(numpydata)*2, 1. / Settings.SAMPLING_RATE)
+                # HPS: multiply data by itself with different scalings (Harmonic Product Spectrum)
+                magnitude_data_orig = copy.deepcopy(magnitude_data)
+                for i in range(2, Settings.NUM_HPS+1, 1):
+                    hps_len = int(np.ceil(len(magnitude_data) / i))
+                    magnitude_data[:hps_len] *= magnitude_data_orig[::i]  # multiply every i element
+
+                # get the corresponding frequency array
+                frequencies = np.fft.fftfreq(int((len(magnitude_data) * 2) / 1),
+                                             1. / (Settings.SAMPLING_RATE))
+
+                # set magnitude of all frequencies below 60Hz to zero
+                for i, freq in enumerate(frequencies):
+                    if freq > 60:
+                        magnitude_data[:i - 1] = 0
+                        break
 
                 # put the frequency of the loudest tone into the queue
-                self.queue.put(round(frequencies[np.argmax(numpydata)], 2))
+                self.queue.put(round(frequencies[np.argmax(magnitude_data)], 2))
 
             except Exception as e:
                 sys.stderr.write('Error: Line {} {} {}\n'.format(sys.exc_info()[-1].tb_lineno, type(e).__name__, e))
@@ -101,3 +116,17 @@ class AudioAnalyzer(Thread):
         self.stream.stop_stream()
         self.stream.close()
         self.audio_object.terminate()
+
+
+if __name__ == "__main__":
+    # Only for testing:
+    from tuner_audio.threading_helper import ProtectedList
+
+    q = ProtectedList(buffer_size=1)
+    a = AudioAnalyzer(q)
+    a.start()
+
+    while True:
+        data = q.get()
+        if data is not None:
+            pass
