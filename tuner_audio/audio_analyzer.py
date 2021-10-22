@@ -4,8 +4,6 @@ from threading import Thread
 import numpy as np
 import sys
 
-from settings import Settings
-
 
 class AudioAnalyzer(Thread):
     """ This AudioAnalyzer reads the microphone and finds the frequency of the loudest tone.
@@ -19,7 +17,7 @@ class AudioAnalyzer(Thread):
 
         while True:
             freq = queue.get()
-            print("Loudest Frequency:", freq, "Note:", analyzer.frequency_to_note_name(freq)) """
+            print("loudest frequency:", freq, "nearest note:", analyzer.frequency_to_note_name(freq)) """
 
     # settings: (are tuned for best detecting string instruments like guitar)
     SAMPLING_RATE = 48000  # mac hardware: 44100, 48000, 96000
@@ -112,8 +110,6 @@ class AudioAnalyzer(Thread):
                 # get the corresponding frequency array
                 frequencies = np.fft.fftfreq(int((len(magnitude_data) * 2) / 1),
                                              1. / self.SAMPLING_RATE)
-
-                print(frequencies[0], frequencies[1])
 
                 # set magnitude of all frequencies below 60Hz to zero
                 for i, freq in enumerate(frequencies):
