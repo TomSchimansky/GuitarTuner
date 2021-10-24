@@ -3,7 +3,9 @@
 ![GitHub Release Date](https://img.shields.io/github/release-date/TomSchimansky/GuitarTuner?color=green)
 
 # GuitarTuner App
+
 ![](documentation/readme_images/Preview_Dark.png)
+
 This is a simple **chromatic tuner** designed for guitar tuning, but it should also work with every other instrument.
 The played note is automatically recognized through the microphone, and an acoustic signal is
 heard when the tuning is correct. If you want you can also change the reference-tone to another
@@ -17,6 +19,8 @@ Windows too if you run it in the command line.
 * Support for macOS light and dark-mode
 
 **➜️ Download macOS app:** https://github.com/TomSchimansky/GuitarTuner/releases/tag/3.1
+
+![](documentation/readme_images/Icon_Banner.png)
 
 ### Functionality
 
@@ -35,7 +39,7 @@ Then you can do:
 ```
 python3 main.py
 ```
-Note that macOS dark-mode **only** works with **anaconda** python version.
+Note that macOS dark-mode **only** works with **anaconda** python version or python.org version 3.10 or later.
 
 So the preferred way to run the program would be with anaconda-python (you have to install miniconda):
 
@@ -62,4 +66,4 @@ If you compile the app with a python.org version, you have to disable the dark-m
 the ```'NSRequiresAquaSystemAppearance': False```entry in setup.py, which causes the application window to go
 into dark-mode.
 
-![](documentation/readme_images/Icon_Banner.png)
+![](documentation/readme_images/Preview_Light.png)

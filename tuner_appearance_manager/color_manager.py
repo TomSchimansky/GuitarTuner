@@ -34,7 +34,7 @@ class ColorManager(object):
             self.background_layer_1 = self.rgb_to_hex((241, 239, 238))
             self.background_layer_0 = self.rgb_to_hex((209, 208, 206))
             self.text_main = self.rgb_to_hex((0, 0, 0))
-            self.text_2 = self.rgb_to_hex((44, 44, 44))
+            self.text_2 = self.rgb_to_hex((36, 36, 36))
             self.text_2_highlight = self.rgb_to_hex((0, 0, 0))
             self.theme_main = self.rgb_to_hex((83, 147, 213))
             self.theme_dark = self.rgb_to_hex((51, 94, 145))

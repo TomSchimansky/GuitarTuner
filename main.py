@@ -63,8 +63,8 @@ class App(tkinter.Tk):
 
         self.needle_buffer_array = np.zeros(Settings.NEEDLE_BUFFER_LENGTH)
         self.tone_hit_counter = 0
-        self.note_name_counter = 0
-        self.last_note_name = ""
+        self.note_number_counter = 0
+        self.nearest_note_number_buffered = 69
         self.a4_frequency = 440
 
         self.dark_mode_active = False
@@ -124,7 +124,7 @@ class App(tkinter.Tk):
             if self.read_user_setting("agreed_on_usage_stats") is True:
 
                 # send log message with option and open_times data
-                 usage_monitor.UsageMonitor.new_log_msg(option, open_times, id)
+                usage_monitor.UsageMonitor.new_log_msg(option, open_times, id)
             else:
                 # open dialog to ask for usage statistics permission
                 answer = tkinter.messagebox.askyesno(title=Settings.APP_NAME,
@@ -241,17 +241,12 @@ class App(tkinter.Tk):
                     # calculate the angle of the display needle
                     needle_angle = -90 * ((freq_difference / semitone_step) * 2)
 
-                    # buffer the note name change
-                    if nearest_note_name != self.last_note_name:
-                        self.note_name_counter += 1
-
-                        if self.note_name_counter >= Settings.HITS_TILL_NOTE_NAME_UPDATE:
-                            self.last_note_name = nearest_note_name
-                            self.note_name_counter = 0
-                        else:
-                            nearest_note_name = self.last_note_name
-                    else:
-                        self.note_name_counter = 0
+                    # buffer the current nearest note number change
+                    if nearest_note_number != self.nearest_note_number_buffered:
+                        self.note_number_counter += 1
+                        if self.note_number_counter >= Settings.HITS_TILL_NOTE_NUMBER_UPDATE:
+                            self.nearest_note_number_buffered = nearest_note_number
+                            self.note_number_counter = 0
 
                     # if needle in range +-5 degrees then make it green, otherwise red
                     if abs(freq_difference) < 0.25:
@@ -272,9 +267,11 @@ class App(tkinter.Tk):
                     self.needle_buffer_array[:-1] = self.needle_buffer_array[1:]
                     self.needle_buffer_array[-1:] = needle_angle
 
-                    # update ui elements
+                    # update ui note labels and display needle
                     self.main_frame.set_needle_angle(np.average(self.needle_buffer_array))
-                    self.main_frame.set_note_name(note_name=nearest_note_name)
+                    self.main_frame.set_note_names(note_name=self.audio_analyzer.number_to_note_name(self.nearest_note_number_buffered),
+                                                   note_name_lower=self.audio_analyzer.number_to_note_name(self.nearest_note_number_buffered - 1),
+                                                   note_name_higher=self.audio_analyzer.number_to_note_name(self.nearest_note_number_buffered + 1))
 
                     # calculate difference in cents
                     if semitone_step == 0:

@@ -4,7 +4,7 @@ class Settings:
 
     """ general settings """
     APP_NAME = "GuitarTuner"
-    VERSION = "3.1"
+    VERSION = "3.2"
     AUTHOR = "Tom Schimansky"
     YEAR = "2021"
 
@@ -14,7 +14,7 @@ class Settings:
 
     STATISTICS_AGREEMENT = "GuitarTuner uses your IP-address to estimate your " + \
                            "region and collects data on how often the app is being opened.\n" + \
-                           "No personal data gets sent and the data is only used to " + \
+                           "No personal data is saved and the data is only used to " + \
                            "determine how often the app is really used.\n\n" + \
                            "Do you agree?"
 
@@ -32,5 +32,5 @@ class Settings:
     FPS = 60  # canvas update rate
     CANVAS_SIZE = 300  # size of the audio-display
 
-    NEEDLE_BUFFER_LENGTH = 12
-    HITS_TILL_NOTE_NAME_UPDATE = 8
+    NEEDLE_BUFFER_LENGTH = 30
+    HITS_TILL_NOTE_NUMBER_UPDATE = 15
