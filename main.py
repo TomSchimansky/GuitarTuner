@@ -82,6 +82,7 @@ class App(tkinter.Tk):
             self.bind("<Command-q>", self.on_closing)
             self.bind("<Command-w>", self.on_closing)
             self.createcommand('tk::mac::Quit', self.on_closing)
+            self.createcommand('tk::mac::ShowPreferences', self.draw_settings_frame)
 
             menu_bar = tkinter.Menu(master=self)
             app_menu = tkinter.Menu(menu_bar, name='apple')
@@ -116,7 +117,6 @@ class App(tkinter.Tk):
         self.main_frame.place(relx=0, rely=0, relheight=1, relwidth=1)
 
     def manage_usage_stats(self, option, open_times, id):
-
         # check usage_monitor module could be loaded
         if usage_monitor is not None:
 
@@ -140,8 +140,10 @@ class App(tkinter.Tk):
                     self.on_closing()
 
     def check_for_updates(self):
+        # check if user agreed on update checking
         if self.read_user_setting("check_for_updates") is True:
             try:
+                # use github API to get latest version string
                 response = requests.get(Settings.GITHUB_API_URL + "/releases/latest")
                 latest_version = response.json()["tag_name"]
             except Exception as err:

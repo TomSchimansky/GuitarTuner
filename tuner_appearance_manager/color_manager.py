@@ -4,17 +4,6 @@ import sys
 
 class ColorManager(object):
     def __init__(self):
-        self.background_layer_1 = None
-        self.background_layer_0 = None
-        self.text_main = None
-        self.text_2 = None
-        self.text_2_highlight = None
-        self.theme_main = None
-        self.theme_dark = None
-        self.theme_light = None
-        self.needle = None
-        self.needle_hit = None
-
         self.set_mode("Light")
 
     def set_mode(self, mode):
