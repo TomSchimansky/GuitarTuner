@@ -2,6 +2,8 @@
 class Settings:
     """ GuitarTuner global app configuration """
 
+    COMPILED_APP_MODE = False
+
     """ general settings """
     APP_NAME = "GuitarTuner"
     VERSION = "3.2"
@@ -12,10 +14,10 @@ class Settings:
     GITHUB_URL = "https://github.com/TomSchimansky/GuitarTuner"
     GITHUB_URL_README = "https://github.com/TomSchimansky/GuitarTuner#readme"
 
-    STATISTICS_AGREEMENT = "GuitarTuner uses your IP-address to estimate your " + \
+    STATISTICS_AGREEMENT = f"{APP_NAME} uses your IP-address to estimate your " + \
                            "region and collects data on how often the app is being opened.\n" + \
                            "No personal data is saved and the data is only used to " + \
-                           "determine how often the app is really used.\n\n" + \
+                           "determine how often the app is used.\n\n" + \
                            "Do you agree?"
 
     USER_SETTINGS_PATH = "/assets/user_settings/user_settings.json"

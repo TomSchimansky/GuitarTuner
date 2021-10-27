@@ -34,12 +34,13 @@ from settings import Settings
 
 class App(tkinter.Tk):
     def __init__(self, *args, **kwargs):
-        if sys.platform == "darwin":  # macOS
-            if Version(tkinter.Tcl().call("info", "patchlevel")) >= Version("8.6.9"):  # Tcl/Tk >= 8.6.9
-                os.system("defaults write -g NSRequiresAquaSystemAppearance -bool No")  # Only for dark-mode testing!
-                # WARNING: This command applies macOS dark-mode on all programs. This can cause bugs on some programs.
-                # Currently this works only with anaconda python version (python.org Tcl/Tk version is only 8.6.8).
-                pass
+        if not Settings.COMPILED_APP_MODE:
+            if sys.platform == "darwin":  # macOS
+                if Version(tkinter.Tcl().call("info", "patchlevel")) >= Version("8.6.9"):  # Tcl/Tk >= 8.6.9
+                    os.system("defaults write -g NSRequiresAquaSystemAppearance -bool No")  # Only for dark-mode testing!
+                    # WARNING: This command applies macOS dark-mode on all programs. This can cause bugs on some programs.
+                    # Currently this works only with anaconda python version (python.org Tcl/Tk version is only 8.6.8).
+                    pass
 
         tkinter.Tk.__init__(self, *args, **kwargs)
 
@@ -117,27 +118,29 @@ class App(tkinter.Tk):
         self.main_frame.place(relx=0, rely=0, relheight=1, relwidth=1)
 
     def manage_usage_stats(self, option, open_times, id):
-        # check usage_monitor module could be loaded
-        if usage_monitor is not None:
+        if Settings.COMPILED_APP_MODE:
 
-            # check if user agreed on usage statistics
-            if self.read_user_setting("agreed_on_usage_stats") is True:
+            # check usage_monitor module could be loaded
+            if usage_monitor is not None:
 
-                # send log message with option and open_times data
-                usage_monitor.UsageMonitor.new_log_msg(option, open_times, id)
-            else:
-                # open dialog to ask for usage statistics permission
-                answer = tkinter.messagebox.askyesno(title=Settings.APP_NAME,
-                                                     message=Settings.STATISTICS_AGREEMENT)
-                if answer is True:
-                    # save user permission
-                    self.write_user_setting("agreed_on_usage_stats", True)
+                # check if user agreed on usage statistics
+                if self.read_user_setting("agreed_on_usage_stats") is True:
 
                     # send log message with option and open_times data
                     usage_monitor.UsageMonitor.new_log_msg(option, open_times, id)
                 else:
-                    # close program if user doesnt agree
-                    self.on_closing()
+                    # open dialog to ask for usage statistics permission
+                    answer = tkinter.messagebox.askyesno(title=Settings.APP_NAME,
+                                                         message=Settings.STATISTICS_AGREEMENT)
+                    if answer is True:
+                        # save user permission
+                        self.write_user_setting("agreed_on_usage_stats", True)
+
+                        # send log message with option and open_times data
+                        usage_monitor.UsageMonitor.new_log_msg(option, open_times, id)
+                    else:
+                        # close program if user doesnt agree
+                        self.on_closing()
 
     def check_for_updates(self):
         # check if user agreed on update checking
@@ -181,11 +184,12 @@ class App(tkinter.Tk):
         self.write_user_setting("bell_muted", self.main_frame.button_mute.is_pressed())
         self.check_for_updates()
 
-        if sys.platform == "darwin":  # macOS
-            if Version(tkinter.Tcl().call("info", "patchlevel")) >= Version("8.6.9"):  # Tcl/Tk >= 8.6.9
-                os.system("defaults delete -g NSRequiresAquaSystemAppearance")  # Only for dark-mode testing!
-                # This command reverts the dark-mode setting for all programs.
-                pass
+        if not Settings.COMPILED_APP_MODE:
+            if sys.platform == "darwin":  # macOS
+                if Version(tkinter.Tcl().call("info", "patchlevel")) >= Version("8.6.9"):  # Tcl/Tk >= 8.6.9
+                    os.system("defaults delete -g NSRequiresAquaSystemAppearance")  # Only for dark-mode testing!
+                    # This command reverts the dark-mode setting for all programs.
+                    pass
 
         self.audio_analyzer.running = False
         self.play_sound_thread.running = False
@@ -211,9 +215,9 @@ class App(tkinter.Tk):
         self.handle_appearance_mode_change()
 
         # handle new usage statistics when program is started
-        if self.read_user_setting("id") is None: self.write_user_setting("id", random.randint(10**20, (10**21)-1))
-        self.write_user_setting("open_times", self.read_user_setting("open_times")+1)
-        self.manage_usage_stats("start", self.read_user_setting("open_times"), self.read_user_setting("id"))
+        if self.read_user_setting("id") is None: self.write_user_setting("id", random.randint(10**20, (10**21)-1))  # generate random id
+        self.write_user_setting("open_times", self.read_user_setting("open_times")+1)  # increase open_times counter
+        # self.manage_usage_stats("start", self.read_user_setting("open_times"), self.read_user_setting("id"))  # send open_times value and id
 
         while self.audio_analyzer.running:
 
@@ -230,7 +234,6 @@ class App(tkinter.Tk):
 
                     # calculate nearest note number, name and frequency
                     nearest_note_number = round(number)
-                    nearest_note_name = self.audio_analyzer.number_to_note_name(nearest_note_number)
                     nearest_note_freq = self.audio_analyzer.number_to_frequency(nearest_note_number, self.a4_frequency)
 
                     # calculate frequency difference from freq to nearest note

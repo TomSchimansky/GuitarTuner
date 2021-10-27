@@ -18,7 +18,7 @@ Windows too if you run it in the command line.
 * High stability of the pitch indicator
 * Support for macOS light and dark-mode
 
-**➜️ Download macOS app:** https://github.com/TomSchimansky/GuitarTuner/releases/tag/3.1
+**➜️ Download macOS app:** https://github.com/TomSchimansky/GuitarTuner/releases/tag/3.2
 
 ![](documentation/readme_images/Icon_Banner.png)
 
