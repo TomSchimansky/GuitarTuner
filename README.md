@@ -20,7 +20,7 @@ Windows too if you run it in the command line.
 
 **➜️ Download macOS app:** https://github.com/TomSchimansky/GuitarTuner/releases/tag/3.2
 
-**➜ Direct Download List:**
+**➜️ Direct Download List:**
 
 | Version | File |
 | ------- | ---- |
