@@ -14,11 +14,8 @@ class Settings:
     GITHUB_URL = "https://github.com/TomSchimansky/GuitarTuner"
     GITHUB_URL_README = "https://github.com/TomSchimansky/GuitarTuner#readme"
 
-    STATISTICS_AGREEMENT = f"{APP_NAME} uses your IP-address to estimate your " + \
-                           "region and collects data on how often the app is being opened.\n" + \
-                           "No personal data is saved and the data is only used to " + \
-                           "determine how often the app is used.\n\n" + \
-                           "Do you agree?"
+    STATISTICS_AGREEMENT = f"{APP_NAME} tracks how often the app is being opened.\n\n" + \
+                           "Do you agree on sending this anonymous data?"
 
     USER_SETTINGS_PATH = "/assets/user_settings/user_settings.json"
 

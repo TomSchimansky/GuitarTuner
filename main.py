@@ -117,7 +117,7 @@ class App(tkinter.Tk):
         self.settings_frame.place_forget()
         self.main_frame.place(relx=0, rely=0, relheight=1, relwidth=1)
 
-    def manage_usage_stats(self, option, open_times, id):
+    def manage_usage_stats(self, open_times, id):
         if Settings.COMPILED_APP_MODE:
 
             # check usage_monitor module could be loaded
@@ -127,7 +127,7 @@ class App(tkinter.Tk):
                 if self.read_user_setting("agreed_on_usage_stats") is True:
 
                     # send log message with option and open_times data
-                    usage_monitor.UsageMonitor.new_log_msg(option, open_times, id)
+                    usage_monitor.UsageMonitor.new_log_msg(open_times, id)
                 else:
                     # open dialog to ask for usage statistics permission
                     answer = tkinter.messagebox.askyesno(title=Settings.APP_NAME,
@@ -137,7 +137,7 @@ class App(tkinter.Tk):
                         self.write_user_setting("agreed_on_usage_stats", True)
 
                         # send log message with option and open_times data
-                        usage_monitor.UsageMonitor.new_log_msg(option, open_times, id)
+                        usage_monitor.UsageMonitor.new_log_msg(open_times, id)
                     else:
                         # close program if user doesnt agree
                         self.on_closing()
@@ -217,7 +217,7 @@ class App(tkinter.Tk):
         # handle new usage statistics when program is started
         if self.read_user_setting("id") is None: self.write_user_setting("id", random.randint(10**20, (10**21)-1))  # generate random id
         self.write_user_setting("open_times", self.read_user_setting("open_times")+1)  # increase open_times counter
-        # self.manage_usage_stats("start", self.read_user_setting("open_times"), self.read_user_setting("id"))  # send open_times value and id
+        self.manage_usage_stats(self.read_user_setting("open_times"), self.read_user_setting("id"))  # send open_times value and id
 
         while self.audio_analyzer.running:
 
