@@ -1,6 +1,5 @@
 import smtplib
 import sys
-import ssl
 import json
 import threading
 from email.mime.multipart import MIMEMultipart
@@ -22,12 +21,9 @@ class UsageMonitor:
         try:
             if Credentials is not None:
 
-                context = ssl.create_default_context()
-
                 with smtplib.SMTP(Credentials.get("server"), Credentials.get("port")) as server:
-                    server.ehlo()
-                    server.starttls(context=context)
-                    server.ehlo()
+
+                    server.starttls()
                     server.login(Credentials.get("mail"),
                                  Credentials.get("token"))
 

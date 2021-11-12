@@ -25,7 +25,7 @@ Windows too if you run it in the command line.
 | Version | File |
 | ------- | ---- |
 | macOS 10.14 and later | [/releases/download/3.2/GuitarTuner.dmg.zip](https://github.com/TomSchimansky/GuitarTuner/releases/download/3.2/GuitarTuner.dmg.zip) |
-| macOS 10.13 and below | [/releases/download/3.2/GuitarTuner_macOS_10_13_and_lower.dmg.zip](https://github.com/TomSchimansky/GuitarTuner/releases/download/3.2/GuitarTuner_macOS_10_13_and_lower.dmg.zip) |
+| macOS 10.13 and below | [/releases/download/3.2/GuitarTuner_macOS_10_13_and_lower.dmg.zip](https://github.com/TomSchimansky/GuitarTuner/releases/download/3.2/GuitarTuner_macOS_10.13_and_lower.dmg.zip) |
 
 
 ![](documentation/readme_images/Icon_Banner.png)
