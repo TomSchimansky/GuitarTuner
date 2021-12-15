@@ -19,7 +19,7 @@ Windows too if you run it in the command line.
 * Support for macOS light and dark-mode
 
 
-###**➜️ Download macOS app:** <a href="https://github.com/TomSchimansky/GuitarTuner/releases/tag/3.2"><button type="button" class="btn" style="background-color:#589DF6;color:white;border:none;font-size: 16px;padding:10px 24px;border-radius: 8px;width: 140px;">Download</button></a>
+### **➜️ Download macOS app:** <button type="button" class="btn" style="background-color:#589DF6;color:white;border:none;font-size: 16px;padding:10px 24px;border-radius: 8px;width: 140px;">Download</button>
 
 ![](documentation/readme_images/Icon_Banner.png)
 
