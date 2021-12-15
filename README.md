@@ -19,7 +19,7 @@ Windows too if you run it in the command line.
 * Support for macOS light and dark-mode
 
 
-### **➜️ Download macOS app:** <button type="button" class="btn" style="background-color:#589DF6;color:white;border:none;font-size: 16px;padding:10px 24px;border-radius: 8px;width: 140px;">Download</button>
+### **➜️ Download macOS app:** <img src="documentation/readme_images/DownloadButton.png" alt="drawing" width="10%"/>
 
 ![](documentation/readme_images/Icon_Banner.png)
 
