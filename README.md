@@ -39,19 +39,6 @@ Then you can do:
 ```
 python3 main.py
 ```
-Note that macOS dark-mode **only** works with **anaconda** python version or python.org version 3.10 or later.
-
-So the preferred way to run the program would be with anaconda-python (you have to install miniconda):
-
-```
-conda activate base
-pip install -r requirements.txt
-python main.py
-   ...
-conda deactivate
-```
-
-Install miniconda python version: https://docs.conda.io/en/latest/miniconda.html
 
 ### Create standalone application
 You can also create a standalone application for macOS or Windows by yourself. For macOS you can use py2app:
